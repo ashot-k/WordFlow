@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="texteditor.Controller">
+    <MenuBar>
+        <Menu text="File">
+            <MenuItem onAction="#openButton" text="Open" />
+
+            <MenuItem fx:id="saveButton" onAction="#saveButton" text="Save"  />
+
+            <MenuItem fx:id="saveAsButton" onAction="#saveButton"  text="Save As" />
+
+            <MenuItem onAction="#closeButton" text="Exit" />
+        </Menu>
+        <Menu text="Edit" />
+        <Menu text="Format">
+            <items>
+                <MenuItem mnemonicParsing="false" text="Font..." />
+            </items></Menu>
+      <padding>
+         <Insets right="1.0" />
+      </padding>
+    </MenuBar>
+    <TextArea fx:id="mainBody" wrapText="true" VBox.vgrow="ALWAYS">
+        <font>
+            <Font name="Consolas" size="13.0" />
+        </font></TextArea>
+    <HBox>
+        <children>
+            <Label text="Label">
+                <font>
+                    <Font name="Arial" size="14.0" />
+                </font>
+            </Label>
+        </children>
+    </HBox>
+</VBox>
