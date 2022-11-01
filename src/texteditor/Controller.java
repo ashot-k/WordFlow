@@ -2,43 +2,53 @@ package texteditor;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
 import java.io.*;
 
 public class Controller {
-    @FXML
-    Button b;
-    //REFERENCE TO TEXT AREA
+    //REFERENCES TO FXML ELEMENTS
     @FXML
     TextArea mainBody;
+    @FXML
+    VBox mainContainer;
+    @FXML
+    ToolBar toolBar;
+    @FXML
+    CheckMenuItem toolBarOption;
+    @FXML
+    GridPane utilitiesBar;
+    @FXML
+    CheckMenuItem utilitiesBarOption;
+
     // FILE CHOOSER FOR OPENING AND SAVING FILES
     FileChooser fileChooser = new FileChooser();
     File currentFile;
+
 
     //FILE TAB BUTTONS
     public void saveButton(ActionEvent e) throws FileNotFoundException {
         Window stage = mainBody.getScene().getWindow();
 
         // write on the same file if currently editing it
-        if (((MenuItem)e.getSource()).getId().equals("saveButton"))
+        if (((MenuItem) e.getSource()).getId().equals("saveButton"))
             if (currentFile != null) {
                 writeFile(currentFile);
                 return;
             }
 
-            //choose file destination
-            fileChooser.setTitle("Save");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
-            if(currentFile != null) fileChooser.setInitialFileName(currentFile.getName());
-            File file = fileChooser.showSaveDialog(stage);
+        //choose file destination
+        fileChooser.setTitle("Save");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
+        if (currentFile != null) fileChooser.setInitialFileName(currentFile.getName());
+        File file = fileChooser.showSaveDialog(stage);
 
-            //try to create text file at destination
-            writeFile(file);
+        //try to create text file at destination
+        writeFile(file);
 
     }
 
@@ -85,5 +95,21 @@ public class Controller {
 
 
     //FORMAT TAB BUTTONS
+
+    //VIEW TAB BUTTONS
+
+
+    public void toggleToolBar(ActionEvent e) {
+        if (!toolBarOption.isSelected())
+            mainContainer.getChildren().remove(toolBar);
+        else
+            mainContainer.getChildren().add(1,toolBar);
+    }
+    public void toggleUtilities(){
+        if (!utilitiesBarOption.isSelected())
+            mainContainer.getChildren().remove(utilitiesBar);
+        else
+            mainContainer.getChildren().add(3,utilitiesBar);
+    }
 
 }

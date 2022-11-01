@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="texteditor.Controller">
+<VBox fx:id="mainContainer" alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="texteditor.Controller">
     <MenuBar>
         <Menu text="File">
             <MenuItem onAction="#openButton" text="Open" />
@@ -21,15 +21,46 @@
             <items>
                 <MenuItem mnemonicParsing="false" text="Font..." />
             </items></Menu>
+      <Menu mnemonicParsing="false" text="View">
+        <items>
+            <CheckMenuItem fx:id="toolBarOption" onAction="#toggleToolBar" mnemonicParsing="false"  selected="true" text="Show Toolbar" />
+            <CheckMenuItem fx:id="utilitiesBarOption" onAction="#toggleUtilities"    mnemonicParsing="false" selected="true" text="Show Utilities" />
+
+        </items>
+      </Menu>
       <padding>
          <Insets right="1.0" />
       </padding>
     </MenuBar>
+   <ToolBar fx:id="toolBar" maxHeight="25.0" minHeight="15.0">
+      <items>
+         <Button mnemonicParsing="false" text="PLACEHOLDERTEXT">
+            <font>
+               <Font size="10.0" />
+            </font>
+         </Button>
+               <Button mnemonicParsing="false" text="PLACEHOLDERTEXT">
+            <font>
+               <Font size="10.0" />
+            </font>
+         </Button>
+         <Button mnemonicParsing="false" text="PLACEHOLDERTEXT">
+            <font>
+               <Font size="10.0" />
+            </font>
+         </Button>
+         <Button mnemonicParsing="false" text="PLACEHOLDERTEXT">
+            <font>
+               <Font size="10.0" />
+            </font>
+         </Button>
+      </items>
+   </ToolBar>
     <TextArea fx:id="mainBody" wrapText="true" VBox.vgrow="ALWAYS">
         <font>
             <Font name="Consolas" size="13.0" />
         </font></TextArea>
-   <GridPane alignment="CENTER">
+   <GridPane fx:id="utilitiesBar" alignment="CENTER">
      <columnConstraints>
        <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
          <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" />
