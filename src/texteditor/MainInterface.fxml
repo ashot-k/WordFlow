@@ -10,9 +10,9 @@
         <Menu text="File">
             <MenuItem onAction="#openButton" text="Open" />
 
-            <MenuItem fx:id="saveButton" onAction="#saveButton" text="Save"  />
+            <MenuItem fx:id="saveButton" onAction="#saveButton" text="Save" />
 
-            <MenuItem fx:id="saveAsButton" onAction="#saveButton"  text="Save As" />
+            <MenuItem fx:id="saveAsButton" onAction="#saveButton" text="Save As" />
 
             <MenuItem onAction="#closeButton" text="Exit" />
         </Menu>
@@ -29,13 +29,32 @@
         <font>
             <Font name="Consolas" size="13.0" />
         </font></TextArea>
-    <HBox>
-        <children>
-            <Label text="Label">
-                <font>
-                    <Font name="Arial" size="14.0" />
-                </font>
-            </Label>
-        </children>
-    </HBox>
+   <GridPane alignment="CENTER">
+     <columnConstraints>
+       <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
+         <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" />
+         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+         <ColumnConstraints halignment="CENTER" maxWidth="50.0" minWidth="10.0" prefWidth="25.0" />
+     </columnConstraints>
+     <rowConstraints>
+       <RowConstraints minHeight="45.0" valignment="CENTER" vgrow="ALWAYS" />
+     </rowConstraints>
+      <children>
+         <Label alignment="CENTER" text="Zoom" GridPane.columnIndex="1" />
+         <Label alignment="CENTER" text="Label">
+            <padding>
+               <Insets left="5.0" />
+            </padding></Label>
+         <Slider fx:id="zoomSlider" accessibleText="Zoom" blockIncrement="25.0" majorTickUnit="75.0" max="200.0" min="25.0" minHeight="-Infinity" minWidth="-Infinity" minorTickCount="25" snapToTicks="true" value="100.0" GridPane.columnIndex="2">
+            <GridPane.margin>
+               <Insets />
+            </GridPane.margin>
+         </Slider>
+         <Label fx:id="zoomAmountLabel" text="100" GridPane.columnIndex="3">
+            <padding>
+               <Insets right="5.0" />
+            </padding>
+         </Label>
+      </children>
+   </GridPane>
 </VBox>

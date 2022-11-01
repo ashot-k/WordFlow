@@ -14,10 +14,12 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("MainInterface.fxml"));
 
         primaryStage.setTitle("TextEditor");
-        primaryStage.setScene(new Scene(root,400,500));
+        primaryStage.setScene(new Scene(root,650,500));
         primaryStage.show();
+
     }
     public static void main(String[] args) {
+        System.out.println(System.getProperty("java.version"));
         launch(args);
     }
 }
