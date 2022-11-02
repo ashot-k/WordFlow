@@ -9,12 +9,15 @@ import javafx.stage.Stage;
 public class Shortcuts {
 
 
-    public static void onCall(Parent scene, Stage primaryStage){
+
+    public static void shortcutSetup(Parent scene, Stage primaryStage){
 
         KeyCombination combination = new KeyCodeCombination(KeyCode.W,KeyCodeCombination.SHIFT_DOWN);
 
         scene.setOnKeyPressed(event -> {
             if (combination.match(event)){
+
+
 
             }
 

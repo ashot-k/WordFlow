@@ -26,7 +26,6 @@ public class Controller {
     // -FONT CONFIGURATION
 
 
-
     //REFERENCES TO FXML ELEMENTS
     @FXML
     TextArea mainBody;
@@ -47,22 +46,20 @@ public class Controller {
     FileChooser fileChooser = new FileChooser();
 
     Tab currentTab;
+    File currentFile;
 
-
-
-    public static void onLoad() {
-
-    }
 
 
     //FILE TAB BUTTONS
-    public void newButton() {
-        tabs.getTabs().add(newTextTab("Untitiled"));
+
+    //new button
+    public void newTab() {
+        tabs.getTabs().add(createNewTab("Untitiled"));
         tabs.getSelectionModel().selectLast();
         currentTab = tabs.getSelectionModel().getSelectedItem();
     }
 
-    public Tab newTextTab(String name) {
+    public Tab createNewTab(String name) {
         Tab newTab = new Tab(name);
 
         HBox content = new HBox();
@@ -79,14 +76,9 @@ public class Controller {
         return newTab;
     }
 
-    public void changedTab() {
 
-    }
-    public TextArea getCurrentTabText(){
-      return  ((TextArea)((HBox) currentTab.getContent()).getChildren());
-    }
 
-    public void openButton() {
+    public void open() {
         Window stage = mainBody.getScene().getWindow();
 
         fileChooser.setTitle("Open File");
@@ -109,22 +101,18 @@ public class Controller {
             } catch (IOException err) {
                 System.out.println(err);
             }
-            newTextTab(file.getName());
+            createNewTab(file.getName());
 
             System.out.println(file);
         }
-
     }
-
-    public void saveButton(ActionEvent e) throws FileNotFoundException {
-        Window stage = getCurrentTabText().getScene().getWindow();
-
+    public void save(ActionEvent e) throws FileNotFoundException {
         // write on the same file if currently editing it
-        if (((MenuItem) e.getSource()).getId().equals("saveButton"))
-            if (currentFile != null) {
-                writeFile(currentFile);
-                return;
-            }
+        if (currentFile != null)
+            writeFile(currentFile);
+    }
+    public void saveAs(ActionEvent e) throws FileNotFoundException {
+        Window stage = getCurrentTabText().getScene().getWindow();
         //choose file destination
         fileChooser.setTitle("Save");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
@@ -134,7 +122,6 @@ public class Controller {
         //try to create text file at destination
         writeFile(file);
     }
-
     public void writeFile(File file) throws FileNotFoundException {
         if (file != null)
             try (PrintWriter output = new PrintWriter(file)) {
@@ -142,12 +129,12 @@ public class Controller {
             }
     }
 
-    public void closeButton() throws IOException {
+    public void close() throws IOException {
 
-      //  System.exit(0);
+        //  System.exit(0);
     }
-    //EDIT TAB BUTTONS
 
+    //EDIT TAB BUTTONS
 
     //FORMAT TAB BUTTONS
 
@@ -166,4 +153,7 @@ public class Controller {
             mainContainer.getChildren().add(3, utilitiesBar);
     }
 
+    public TextArea getCurrentTabText() {
+        return ((TextArea) ((HBox) currentTab.getContent()).getChildren());
+    }
 }

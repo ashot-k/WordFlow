@@ -22,14 +22,14 @@
 <VBox fx:id="mainContainer" alignment="CENTER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="texteditor.Controller">
     <MenuBar>
         <Menu text="File">
-            <MenuItem mnemonicParsing="false" onAction="#newButton" text="New" />
-            <MenuItem onAction="#openButton" text="Open" />
+            <MenuItem mnemonicParsing="false" onAction="#newTab" text="New" />
+            <MenuItem onAction="#open" text="Open" />
 
-            <MenuItem fx:id="saveButton" onAction="#saveButton" text="Save" />
+            <MenuItem fx:id="saveButton" onAction="#save" text="Save" />
 
-            <MenuItem fx:id="saveAsButton" onAction="#saveButton" text="Save As" />
+            <MenuItem fx:id="saveAsButton" onAction="#saveAs" text="Save As" />
 
-            <MenuItem onAction="#closeButton" text="Close" />
+            <MenuItem onAction="#close" text="Close" />
         </Menu>
         <Menu text="Edit" />
         <Menu text="Format">
