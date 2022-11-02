@@ -19,11 +19,8 @@ public class Main extends Application {
 
         primaryStage.setTitle("TextEditor");
         primaryStage.setScene(new Scene(root,650,500));
-
-
-        Controller.onLoad();
-
         primaryStage.show();
+
         mainStage = primaryStage;
     }
     public static void main(String[] args) {

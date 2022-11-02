@@ -106,12 +106,13 @@ public class Controller {
             System.out.println(file);
         }
     }
-    public void save(ActionEvent e) throws FileNotFoundException {
+    public  void save() throws FileNotFoundException {
+        System.out.println("called");
         // write on the same file if currently editing it
         if (currentFile != null)
             writeFile(currentFile);
     }
-    public void saveAs(ActionEvent e) throws FileNotFoundException {
+    public void saveAs() throws FileNotFoundException {
         Window stage = getCurrentTabText().getScene().getWindow();
         //choose file destination
         fileChooser.setTitle("Save");
@@ -128,10 +129,9 @@ public class Controller {
                 output.println(mainBody.getText());
             }
     }
-
     public void close() throws IOException {
 
-        //  System.exit(0);
+
     }
 
     //EDIT TAB BUTTONS

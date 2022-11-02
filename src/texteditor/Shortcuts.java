@@ -6,6 +6,8 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
+
 public class Shortcuts {
 
 
