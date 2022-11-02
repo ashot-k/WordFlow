@@ -1,91 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox fx:id="mainContainer" alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="texteditor.Controller">
+<VBox fx:id="mainContainer" alignment="CENTER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="texteditor.Controller">
     <MenuBar>
         <Menu text="File">
+            <MenuItem mnemonicParsing="false" onAction="#newButton" text="New" />
             <MenuItem onAction="#openButton" text="Open" />
 
             <MenuItem fx:id="saveButton" onAction="#saveButton" text="Save" />
 
             <MenuItem fx:id="saveAsButton" onAction="#saveButton" text="Save As" />
 
-            <MenuItem onAction="#closeButton" text="Exit" />
+            <MenuItem onAction="#closeButton" text="Close" />
         </Menu>
         <Menu text="Edit" />
         <Menu text="Format">
             <items>
                 <MenuItem mnemonicParsing="false" text="Font..." />
-            </items></Menu>
-      <Menu mnemonicParsing="false" text="View">
-        <items>
-            <CheckMenuItem fx:id="toolBarOption" onAction="#toggleToolBar" mnemonicParsing="false"  selected="true" text="Show Toolbar" />
-            <CheckMenuItem fx:id="utilitiesBarOption" onAction="#toggleUtilities"    mnemonicParsing="false" selected="true" text="Show Utilities" />
+            </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="View">
+            <items>
+                <CheckMenuItem fx:id="toolBarOption" mnemonicParsing="false" onAction="#toggleToolBar" selected="true" text="Show Toolbar" />
+                <CheckMenuItem fx:id="utilitiesBarOption" mnemonicParsing="false" onAction="#toggleUtilities" selected="true" text="Show Utilities" />
 
-        </items>
-      </Menu>
-      <padding>
-         <Insets right="1.0" />
-      </padding>
+            </items>
+        </Menu>
+        <padding>
+            <Insets right="1.0" />
+        </padding>
     </MenuBar>
-   <ToolBar fx:id="toolBar" maxHeight="25.0" minHeight="15.0">
-      <items>
-         <Button mnemonicParsing="false" text="PLACEHOLDERTEXT">
-            <font>
-               <Font size="10.0" />
-            </font>
-         </Button>
-               <Button mnemonicParsing="false" text="PLACEHOLDERTEXT">
-            <font>
-               <Font size="10.0" />
-            </font>
-         </Button>
-         <Button mnemonicParsing="false" text="PLACEHOLDERTEXT">
-            <font>
-               <Font size="10.0" />
-            </font>
-         </Button>
-         <Button mnemonicParsing="false" text="PLACEHOLDERTEXT">
-            <font>
-               <Font size="10.0" />
-            </font>
-         </Button>
-      </items>
-   </ToolBar>
-    <TextArea fx:id="mainBody" wrapText="true" VBox.vgrow="ALWAYS">
-        <font>
-            <Font name="Consolas" size="13.0" />
-        </font></TextArea>
-   <GridPane fx:id="utilitiesBar" alignment="CENTER">
-     <columnConstraints>
-       <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
-         <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" />
-         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
-         <ColumnConstraints halignment="CENTER" maxWidth="50.0" minWidth="10.0" prefWidth="25.0" />
-     </columnConstraints>
-     <rowConstraints>
-       <RowConstraints minHeight="45.0" valignment="CENTER" vgrow="ALWAYS" />
-     </rowConstraints>
-      <children>
-         <Label alignment="CENTER" text="Zoom" GridPane.columnIndex="1" />
-         <Label alignment="CENTER" text="Label">
-            <padding>
-               <Insets left="5.0" />
-            </padding></Label>
-         <Slider fx:id="zoomSlider" accessibleText="Zoom" blockIncrement="25.0" majorTickUnit="75.0" max="200.0" min="25.0" minHeight="-Infinity" minWidth="-Infinity" minorTickCount="25" snapToTicks="true" value="100.0" GridPane.columnIndex="2">
-            <GridPane.margin>
-               <Insets />
-            </GridPane.margin>
-         </Slider>
-         <Label fx:id="zoomAmountLabel" text="100" GridPane.columnIndex="3">
-            <padding>
-               <Insets right="5.0" />
-            </padding>
-         </Label>
-      </children>
-   </GridPane>
+    <ToolBar fx:id="toolBar">
+        <items>
+            <Button mnemonicParsing="false" text="PLACEHOLDERTEXT">
+                <font>
+                    <Font size="10.0" />
+                </font>
+            </Button>
+            <Button mnemonicParsing="false" text="PLACEHOLDERTEXT">
+                <font>
+                    <Font size="10.0" />
+                </font>
+            </Button>
+            <Button mnemonicParsing="false" text="PLACEHOLDERTEXT">
+                <font>
+                    <Font size="10.0" />
+                </font>
+            </Button>
+            <Button mnemonicParsing="false" text="PLACEHOLDERTEXT">
+                <font>
+                    <Font size="10.0" />
+                </font>
+            </Button>
+        </items>
+    </ToolBar>
+    <TabPane fx:id="tabs" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+        <tabs>
+            <Tab text="Untitled Tab 1">
+                <content>
+                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                        <children>
+                            <TextArea fx:id="mainBody" wrapText="true" HBox.hgrow="SOMETIMES">
+                                <font>
+                                    <Font name="Consolas" size="13.0" />
+                                </font>
+                            </TextArea>
+                        </children>
+                    </HBox>
+                </content>
+            </Tab>
+        </tabs>
+      <VBox.margin>
+         <Insets />
+      </VBox.margin>
+    </TabPane>
+    <GridPane fx:id="utilitiesBar" alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="190.0" minWidth="137.0" prefWidth="185.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" maxWidth="126.0" minWidth="73.0" prefWidth="78.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+            <ColumnConstraints halignment="CENTER" maxWidth="50.0" minWidth="10.0" prefWidth="25.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="45.0" valignment="CENTER" vgrow="ALWAYS" />
+        </rowConstraints>
+        <children>
+            <Label alignment="CENTER" text="Zoom" GridPane.columnIndex="1" />
+            <Label alignment="CENTER" text="Label">
+                <padding>
+                    <Insets left="5.0" />
+                </padding>
+            </Label>
+            <Slider fx:id="zoomSlider" accessibleText="Zoom" blockIncrement="25.0" majorTickUnit="75.0" max="200.0" min="25.0" minHeight="-Infinity" minWidth="-Infinity" minorTickCount="25" snapToTicks="true" value="100.0" GridPane.columnIndex="2">
+                <GridPane.margin>
+                    <Insets />
+                </GridPane.margin>
+            </Slider>
+            <Label fx:id="zoomAmountLabel" text="100" GridPane.columnIndex="3">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+        </children>
+    </GridPane>
 </VBox>
