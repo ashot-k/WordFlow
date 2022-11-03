@@ -1,5 +1,7 @@
 package texteditor;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -10,8 +12,11 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import sun.security.util.ArrayUtil;
 
+import javax.xml.soap.Text;
 import java.io.*;
+import java.util.ArrayList;
 
 public class Controller {
 
@@ -27,8 +32,8 @@ public class Controller {
 
 
     //REFERENCES TO FXML ELEMENTS
-    @FXML
-    TextArea mainBody;
+
+
     @FXML
     VBox mainContainer;
     @FXML
@@ -44,17 +49,36 @@ public class Controller {
 
     // FILE CHOOSER FOR OPENING AND SAVING FILES
     FileChooser fileChooser = new FileChooser();
-
+    //REFERENCES TO CURRENT TAB NODES
     Tab currentTab;
+    TextArea currentTextArea;
     File currentFile;
+    ArrayList<String> paths = new ArrayList<>();
+
+    public void refresh() {
+        currentTab = tabs.getSelectionModel().getSelectedItem();
+        //get current tab text
+        currentTextArea = (TextArea) (((HBox) currentTab.getContent()).getChildren().get(0));
+
+        //get current tab file path
+        String path = (((Label) (((HBox) currentTab.getContent()).getChildren().get(1))).getText());
+        //check if file path exists
+        if(!path.isEmpty())
+            currentFile = new File(((Label) (((HBox) currentTab.getContent()).getChildren().get(1))).getText());
+        System.out.println(currentFile);
+    }
 
 
 
-    //FILE TAB BUTTONS
-
-    //new button
+    //untitled tab
     public void newTab() {
         tabs.getTabs().add(createNewTab("Untitiled"));
+        tabs.getSelectionModel().selectLast();
+        currentTab = tabs.getSelectionModel().getSelectedItem();
+    }
+    //titled tab opened through file
+    public void newTab(String name, String filePath) {
+        tabs.getTabs().add(createNewTab(name,filePath));
         tabs.getSelectionModel().selectLast();
         currentTab = tabs.getSelectionModel().getSelectedItem();
     }
@@ -69,69 +93,99 @@ public class Controller {
 
         TextArea txt = new TextArea();
         HBox.setHgrow(txt, Priority.SOMETIMES);
+        Label path = new Label();
+
         content.getChildren().add(txt);
+        content.getChildren().add(path);
+
 
         newTab.setContent(content);
 
         return newTab;
     }
+    public Tab createNewTab(String name, String filePath) {
+        Tab newTab = new Tab(name);
+
+       HBox content = new HBox();
+        content.setAlignment(Pos.CENTER);
+        content.prefHeight(200.0);
+        content.prefWidth(200.0);
+
+        TextArea txt = new TextArea();
+        HBox.setHgrow(txt, Priority.SOMETIMES);
+
+        Label path = new Label();
+
+        path.setVisible(false);
+        path.setText(filePath);
+
+        path.minWidth(0);
+        path.prefWidth(0);
+        path.maxWidth(0);
 
 
+        content.getChildren().add(txt);
+        content.getChildren().add(path);
 
+        newTab.setContent(content);
+
+        return newTab;
+    }
+    public TextArea getCurrentTabText() {
+        return ((TextArea) ((HBox) currentTab.getContent()).getChildren());
+    }
+    public File checkForPath(){
+        String check = ((Label) (((HBox) currentTab.getContent()).getChildren().get(1))).getText();
+        if(check.isEmpty())
+            return null;
+        else
+            return new File(check);
+
+    }
+
+
+    //FILE TAB BUTTONS
     public void open() {
-        Window stage = mainBody.getScene().getWindow();
+        Window stage = mainContainer.getScene().getWindow();
 
         fileChooser.setTitle("Open File");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
         File file = fileChooser.showOpenDialog(stage);
-        //try reading text from file
-        if (file != null) {
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line = br.readLine();
-                StringBuffer textFromFile = new StringBuffer("");
-                while (line != null) {
-                    textFromFile.append(line);
-                    textFromFile.append(System.lineSeparator());
-                    line = br.readLine();
-                }
-                //displaying text on main body
-                mainBody.setText(textFromFile.toString());
 
-            } catch (IOException err) {
-                System.out.println(err);
-            }
-            createNewTab(file.getName());
+        if (file == null) return;
+        //put text from file to textarea
+        newTab(file.getName(), file.getAbsolutePath());
+        refresh();
 
-            System.out.println(file);
-        }
+
+        currentTextArea.setText(Utilities.readFile(file));
     }
-    public  void save() throws FileNotFoundException {
+
+    public void save() throws FileNotFoundException {
         System.out.println("called");
         // write on the same file if currently editing it
-        if (currentFile != null)
-            writeFile(currentFile);
+        File f = checkForPath();
+        if (f != null)
+            Utilities.writeFile(f, currentTextArea);
     }
+
     public void saveAs() throws FileNotFoundException {
         Window stage = getCurrentTabText().getScene().getWindow();
         //choose file destination
         fileChooser.setTitle("Save");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
-        if (currentFile != null) fileChooser.setInitialFileName(currentFile.getName());
+
+        File f = checkForPath();
+        if (checkForPath() != null) fileChooser.setInitialFileName(f.getName());
         File file = fileChooser.showSaveDialog(stage);
 
         //try to create text file at destination
-        writeFile(file);
+        Utilities.writeFile(file, currentTextArea);
     }
-    public void writeFile(File file) throws FileNotFoundException {
-        if (file != null)
-            try (PrintWriter output = new PrintWriter(file)) {
-                output.println(mainBody.getText());
-            }
-    }
+
     public void close() throws IOException {
-
-
+        tabs.getTabs().remove(tabs.getSelectionModel().getSelectedItem());
+        refresh();
     }
 
     //EDIT TAB BUTTONS
@@ -153,7 +207,6 @@ public class Controller {
             mainContainer.getChildren().add(3, utilitiesBar);
     }
 
-    public TextArea getCurrentTabText() {
-        return ((TextArea) ((HBox) currentTab.getContent()).getChildren());
-    }
+
+
 }
