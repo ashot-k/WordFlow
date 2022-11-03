@@ -1,5 +1,6 @@
 package texteditor;
 
+import com.sun.prism.shader.AlphaOne_Color_Loader;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -55,16 +56,17 @@ public class Controller {
     File currentFile;
     ArrayList<String> paths = new ArrayList<>();
 
+
     public void refresh() {
         currentTab = tabs.getSelectionModel().getSelectedItem();
         //get current tab text
         currentTextArea = (TextArea) (((HBox) currentTab.getContent()).getChildren().get(0));
 
         //get current tab file path
-        String path = (((Label) (((HBox) currentTab.getContent()).getChildren().get(1))).getText());
+        String path = currentTab.getId();
         //check if file path exists
-        if(!path.isEmpty())
-            currentFile = new File(((Label) (((HBox) currentTab.getContent()).getChildren().get(1))).getText());
+        if(path != null)
+            currentFile = new File(currentTab.getId());
         System.out.println(currentFile);
     }
 
@@ -75,72 +77,48 @@ public class Controller {
         tabs.getTabs().add(createNewTab("Untitiled"));
         tabs.getSelectionModel().selectLast();
         currentTab = tabs.getSelectionModel().getSelectedItem();
+        refresh();
     }
     //titled tab opened through file
     public void newTab(String name, String filePath) {
         tabs.getTabs().add(createNewTab(name,filePath));
         tabs.getSelectionModel().selectLast();
         currentTab = tabs.getSelectionModel().getSelectedItem();
+        refresh();
     }
 
     public Tab createNewTab(String name) {
         Tab newTab = new Tab(name);
-
         HBox content = new HBox();
+        TextArea txt = new TextArea();
         content.setAlignment(Pos.CENTER);
         content.prefHeight(200.0);
         content.prefWidth(200.0);
-
-        TextArea txt = new TextArea();
         HBox.setHgrow(txt, Priority.SOMETIMES);
-        Label path = new Label();
 
         content.getChildren().add(txt);
-        content.getChildren().add(path);
-
-
         newTab.setContent(content);
 
         return newTab;
     }
     public Tab createNewTab(String name, String filePath) {
         Tab newTab = new Tab(name);
-
-       HBox content = new HBox();
+        HBox content = new HBox();
+        TextArea txt = new TextArea();
         content.setAlignment(Pos.CENTER);
         content.prefHeight(200.0);
         content.prefWidth(200.0);
-
-        TextArea txt = new TextArea();
         HBox.setHgrow(txt, Priority.SOMETIMES);
 
-        Label path = new Label();
-
-        path.setVisible(false);
-        path.setText(filePath);
-
-        path.minWidth(0);
-        path.prefWidth(0);
-        path.maxWidth(0);
-
+        newTab.setId(filePath);
 
         content.getChildren().add(txt);
-        content.getChildren().add(path);
-
         newTab.setContent(content);
 
         return newTab;
     }
     public TextArea getCurrentTabText() {
-        return ((TextArea) ((HBox) currentTab.getContent()).getChildren());
-    }
-    public File checkForPath(){
-        String check = ((Label) (((HBox) currentTab.getContent()).getChildren().get(1))).getText();
-        if(check.isEmpty())
-            return null;
-        else
-            return new File(check);
-
+        return ((TextArea) ((HBox) currentTab.getContent()).getChildren().get(0));
     }
 
 
@@ -155,32 +133,46 @@ public class Controller {
         if (file == null) return;
         //put text from file to textarea
         newTab(file.getName(), file.getAbsolutePath());
+
         refresh();
-
-
         currentTextArea.setText(Utilities.readFile(file));
     }
 
     public void save() throws FileNotFoundException {
+        refresh();
         System.out.println("called");
         // write on the same file if currently editing it
         File f = checkForPath();
         if (f != null)
             Utilities.writeFile(f, currentTextArea);
+        else
+            saveAs();
     }
 
     public void saveAs() throws FileNotFoundException {
+
         Window stage = getCurrentTabText().getScene().getWindow();
         //choose file destination
         fileChooser.setTitle("Save");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
 
-        File f = checkForPath();
-        if (checkForPath() != null) fileChooser.setInitialFileName(f.getName());
-        File file = fileChooser.showSaveDialog(stage);
 
+        File f = checkForPath();
+        if (f != null) fileChooser.setInitialFileName(f.getName());
+
+        File file = fileChooser.showSaveDialog(stage);
         //try to create text file at destination
         Utilities.writeFile(file, currentTextArea);
+
+        currentTab.setId(file.getAbsolutePath());
+        refresh();
+    }
+    public File checkForPath(){
+        String check = currentTab.getId();
+        if(check == null)
+            return null;
+        else
+            return new File(check);
     }
 
     public void close() throws IOException {
