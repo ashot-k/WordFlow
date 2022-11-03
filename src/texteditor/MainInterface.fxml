@@ -74,19 +74,7 @@
     </ToolBar>
     <TabPane fx:id="tabs" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
         <tabs>
-            <Tab text="Untitled Tab 1">
-                <content>
-                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                        <children>
-                            <TextArea fx:id="mainBody" wrapText="true" HBox.hgrow="SOMETIMES">
-                                <font>
-                                    <Font name="Consolas" size="13.0"/>
-                                </font>
-                            </TextArea>
-                        </children>
-                    </HBox>
-                </content>
-            </Tab>
+
         </tabs>
         <VBox.margin>
             <Insets/>
