@@ -23,14 +23,14 @@ import java.io.IOException;
 public class Controller {
 
     //TODO
-    // -TAB MANAGEMENT
-    // -PRINT
-    // -ZOOM SLIDER FUNCTIONALITY
+    // -TAB MANAGEMENT DONE!
     // -ADD POPUP ON EXIT
     // -OPEN RECENT TAB
     // -SEARCH TAB
     // -SHORTCUTS
     // -FONT CONFIGURATION
+    // -PRINT
+    // -ZOOM SLIDER FUNCTIONALITY
 
     //REFERENCES TO FXML ELEMENTS
     @FXML

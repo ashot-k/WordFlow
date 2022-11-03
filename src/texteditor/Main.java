@@ -21,11 +21,12 @@ public class Main extends Application {
 
 
         Parent root = loader.load();
-
         controller = loader.getController();
+
         primaryStage.setTitle("TextEditor");
         primaryStage.setScene(new Scene(root, 650, 500));
         primaryStage.show();
+
         Shortcuts shortcutStart = new Shortcuts();
         shortcutStart.shortcutSetup(primaryStage.getScene().getRoot(), primaryStage);
     }
