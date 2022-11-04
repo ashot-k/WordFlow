@@ -56,22 +56,22 @@ public class Main extends Application {
             hotkeyFunctions.put(closeShortcut, "close");
             hotkeyFunctions.put(openShortcut, "open");
 
-
             ArrayList<KeyCombination> shortcutList = new ArrayList<>();
             shortcutList.add(saveShortcut);
             shortcutList.add(newTabShortcut);
             shortcutList.add(closeShortcut);
             shortcutList.add(openShortcut);
 
-
             scene.setOnKeyPressed(event -> {
-
 
                 for (KeyCombination combination : shortcutList) {
                     if (combination.match(event)) {
                         String function = hotkeyFunctions.get(combination);
                         try {
                             switch (function) {
+                                case "newTab":
+                                    controller.newTab();
+                                    break;
                                 case "open":
                                     controller.open();
                                     break;
@@ -92,10 +92,9 @@ public class Main extends Application {
                         }
 
                     }
-
                 }
 
-
+                /*
                 if (saveShortcut.match(event)) {
                     try {
                         controller.save();
@@ -115,6 +114,8 @@ public class Main extends Application {
                 } else if (openShortcut.match(event)) {
                     controller.open();
                 }
+
+                 */
             });
 
 
