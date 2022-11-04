@@ -116,6 +116,20 @@ public class Controller {
         return newTab;
     }
 
+
+    public void menuManager(ActionEvent e){
+        String menuName = ((MenuItem)e.getSource()).getId();
+        switch (menuName){
+            case "newMenu": newTab(); break;
+            case "openMenu": break;
+            case "openRecentMenu": break;
+            case "saveMenu": break;
+            case "saveAsMenu": break;
+            case "closeMenu": break;
+        }
+    }
+
+
     //FILE TAB BUTTONS
     public void open() {
         Window stage = mainContainer.getScene().getWindow();
