@@ -40,25 +40,45 @@ public class Main extends Application {
 
     public class Shortcuts {
 
-
         public void shortcutSetup(Parent scene, Stage primaryStage) {
 
-            KeyCombination combination = new KeyCodeCombination(KeyCode.S, KeyCodeCombination.CONTROL_DOWN);
+            KeyCombination SaveShortcut = new KeyCodeCombination(KeyCode.S, KeyCodeCombination.CONTROL_DOWN);
+            KeyCombination newTabShortcut = new KeyCodeCombination(KeyCode.T,KeyCodeCombination.CONTROL_DOWN);
+            KeyCombination CloseTabShortcut = new KeyCodeCombination(KeyCode.W,KeyCodeCombination.CONTROL_DOWN);
+            KeyCombination OpenShortcut = new KeyCodeCombination(KeyCode.O,KeyCodeCombination.CONTROL_DOWN);
+
             scene.setOnKeyPressed(event -> {
-                if (combination.match(event)) {
+                if (SaveShortcut.match(event)) {
                     try {
                         controller.save();
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     }
+                }
+                else if (newTabShortcut.match(event))
+                {
+                    controller.newTab();
+                }
+                else if (CloseTabShortcut.match(event))
+                {
 
+                    try {
+                        controller.close();
+                    }catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
+                }
+                else if (OpenShortcut.match(event))
+                {
+                    controller.open();
                 }
             });
 
 
         }
     }
+
 
 
 }
