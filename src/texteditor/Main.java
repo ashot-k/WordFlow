@@ -41,26 +41,28 @@ public class Main extends Application {
 
 
     public class Shortcuts {
-
         public void shortcutSetup(Parent scene, Stage primaryStage) {
 
+                KeyCombination saveShortcut = new KeyCodeCombination(KeyCode.S, KeyCodeCombination.CONTROL_DOWN);
+                KeyCombination newTabShortcut = new KeyCodeCombination(KeyCode.T, KeyCodeCombination.CONTROL_DOWN);
+                KeyCombination closeShortcut = new KeyCodeCombination(KeyCode.W, KeyCodeCombination.CONTROL_DOWN);
+                KeyCombination openShortcut = new KeyCodeCombination(KeyCode.O, KeyCodeCombination.CONTROL_DOWN);
 
-            KeyCombination saveShortcut = new KeyCodeCombination(KeyCode.S, KeyCodeCombination.CONTROL_DOWN);
-            KeyCombination newTabShortcut = new KeyCodeCombination(KeyCode.T, KeyCodeCombination.CONTROL_DOWN);
-            KeyCombination closeShortcut = new KeyCodeCombination(KeyCode.W, KeyCodeCombination.CONTROL_DOWN);
-            KeyCombination openShortcut = new KeyCodeCombination(KeyCode.O, KeyCodeCombination.CONTROL_DOWN);
+                HashMap<KeyCombination, String> hotkeyFunctions = new HashMap<>();
+                hotkeyFunctions.put(saveShortcut, "save");
+                hotkeyFunctions.put(newTabShortcut, "newTab");
+                hotkeyFunctions.put(closeShortcut, "close");
+                hotkeyFunctions.put(openShortcut, "open");
 
-            HashMap<KeyCombination, String> hotkeyFunctions = new HashMap<>();
-            hotkeyFunctions.put(saveShortcut, "save");
-            hotkeyFunctions.put(newTabShortcut, "newTab");
-            hotkeyFunctions.put(closeShortcut, "close");
-            hotkeyFunctions.put(openShortcut, "open");
+                ArrayList<KeyCombination> shortcutList = new ArrayList<>();
+                shortcutList.add(saveShortcut);
+                shortcutList.add(newTabShortcut);
+                shortcutList.add(closeShortcut);
+                shortcutList.add(openShortcut);
 
-            ArrayList<KeyCombination> shortcutList = new ArrayList<>();
-            shortcutList.add(saveShortcut);
-            shortcutList.add(newTabShortcut);
-            shortcutList.add(closeShortcut);
-            shortcutList.add(openShortcut);
+
+
+
 
             scene.setOnKeyPressed(event -> {
 

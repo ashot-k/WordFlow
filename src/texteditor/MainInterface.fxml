@@ -19,14 +19,14 @@
 <VBox fx:id="mainContainer" alignment="CENTER" styleClass="ok" xmlns="http://javafx.com/javafx/19"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="texteditor.Controller">
 
-    <MenuBar>
+    <MenuBar fx:id="menuBar">
         <Menu text="File">
-            <MenuItem fx:id="newMenu" onAction="#menuManager" text="New"/>
-            <MenuItem fx:id="openMenu" onAction="#open" text="Open"/>
+            <MenuItem fx:id="newMenu"  text="New"/>
+            <MenuItem fx:id="openMenu"  text="Open"/>
             <Menu fx:id="openRecentMenu" text="Open Recent"/>
-            <MenuItem fx:id="saveMenu" onAction="#save" text="Save"/>
-            <MenuItem fx:id="saveAsMenu" onAction="#saveAs" text="Save As"/>
-            <MenuItem fx:id="closeMenu" onAction="#close" text="Close"/>
+            <MenuItem fx:id="saveMenu"  text="Save"/>
+            <MenuItem fx:id="saveAsMenu"  text="Save As"/>
+            <MenuItem fx:id="closeMenu"  text="Close"/>
         </Menu>
         <Menu text="Edit"/>
         <Menu text="Format">
@@ -36,9 +36,9 @@
         </Menu>
         <Menu mnemonicParsing="false" text="View">
             <items>
-                <CheckMenuItem fx:id="toolBarOption" mnemonicParsing="false" onAction="#toggleToolBar" selected="true"
+                <CheckMenuItem fx:id="toolBarViewOption" mnemonicParsing="false" selected="true"
                                text="Show Toolbar"/>
-                <CheckMenuItem fx:id="utilitiesBarOption" mnemonicParsing="false" onAction="#toggleUtilities"
+                <CheckMenuItem fx:id="utilitiesViewOption" mnemonicParsing="false"
                                selected="true" text="Show Utilities"/>
 
             </items>

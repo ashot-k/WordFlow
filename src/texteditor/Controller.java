@@ -2,12 +2,9 @@ package texteditor;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -19,8 +16,11 @@ import javafx.stage.Window;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class Controller {
+public class Controller implements Initializable {
 
     //TODO
     // -TAB MANAGEMENT DONE!
@@ -36,20 +36,54 @@ public class Controller {
     @FXML
     VBox mainContainer;
     @FXML
+    MenuBar menuBar;
+    @FXML
     ToolBar toolBar;
     @FXML
-    CheckMenuItem toolBarOption;
+    CheckMenuItem toolBarViewOption;
     @FXML
     GridPane utilitiesBar;
     @FXML
-    CheckMenuItem utilitiesBarOption;
+    CheckMenuItem utilitiesViewOption;
     @FXML
     TabPane tabs;
 
+
     // FILE CHOOSER FOR OPENING AND SAVING FILES
-    FileChooser fileChooser = new FileChooser();
+    private FileChooser fileChooser = new FileChooser();
     //REFERENCE TO CURRENT TAB
-    Tab currentTab;
+    private Tab currentTab;
+    private Stage primaryStage;
+
+
+
+    @FXML
+    public void initialize(URL location, ResourceBundle resources) {
+          setupEvents();
+    }
+    private void setupEvents() {
+
+        ArrayList<MenuItem> menuItems = new ArrayList<>();
+        //insert all menu items to arraylist
+        for (Object node : menuBar.getMenus()) {
+            if (node instanceof MenuItem)
+                menuItems.add((MenuItem) node);
+            else if (node instanceof Menu) {
+                for (MenuItem m : ((Menu) node).getItems())
+                    menuItems.add(m);
+            }
+        }
+        //add events to each menuItem
+        for (MenuItem menuItem : menuItems) {
+            menuItem.setOnAction(event -> {
+                try {
+                    menuManager(event);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+    }
 
     public void refresh() {
         currentTab = tabs.getSelectionModel().getSelectedItem();
@@ -117,16 +151,39 @@ public class Controller {
     }
 
 
-    public void menuManager(ActionEvent e){
-        String menuName = ((MenuItem)e.getSource()).getId();
-        switch (menuName){
-            case "newMenu": newTab(); break;
-            case "openMenu": break;
-            case "openRecentMenu": break;
-            case "saveMenu": break;
-            case "saveAsMenu": break;
-            case "closeMenu": break;
+    public void menuManager(ActionEvent e) throws IOException {
+        refresh();
+        String menuName = ((MenuItem)e.getTarget()).getId();
+        System.out.println(menuName);
+
+        if(menuName!= null)
+        switch (menuName) {
+            case "newMenu":
+                newTab();
+                break;
+            case "openMenu":
+                open();
+                break;
+            case "openRecentMenu":
+                break;
+            case "saveMenu":
+                save();
+                break;
+            case "saveAsMenu":
+                saveAs();
+                break;
+            case "closeMenu":
+                close();
+                break;
+            case"toolBarViewOption":
+                toggleToolBar(e);
+                break;
+            case "utilitiesViewOption":
+                toggleUtilities();
+                break;
         }
+
+        refresh();
     }
 
 
@@ -145,9 +202,6 @@ public class Controller {
 
     public void save() throws FileNotFoundException {
         if (tabs.getTabs().isEmpty()) return;
-
-        refresh();
-        System.out.println("called save()");
         // write on the same file if currently editing it
         File f = getCurrentPath();
         if (f != null)
@@ -157,9 +211,8 @@ public class Controller {
     }
 
     public void saveAs() throws FileNotFoundException {
+        if (tabs.getTabs().isEmpty()) return;
         Window stage = mainContainer.getScene().getWindow();
-        refresh();
-
         //choose file destination // filerchooser setup
         fileChooser.setTitle("Save");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
@@ -177,7 +230,6 @@ public class Controller {
 
     public void close() throws IOException {
         tabs.getTabs().remove(tabs.getSelectionModel().getSelectedItem());
-        refresh();
     }
 
     //EDIT TAB BUTTONS
@@ -186,18 +238,19 @@ public class Controller {
 
     //VIEW TAB BUTTONS
     public void toggleToolBar(ActionEvent e) {
-        if (!toolBarOption.isSelected())
+        if (!toolBarViewOption.isSelected())
             mainContainer.getChildren().remove(toolBar);
         else
             mainContainer.getChildren().add(1, toolBar);
     }
 
     public void toggleUtilities() {
-        if (!utilitiesBarOption.isSelected())
+        if (!utilitiesViewOption.isSelected())
             mainContainer.getChildren().remove(utilitiesBar);
         else
             mainContainer.getChildren().add(3, utilitiesBar);
     }
+
 
 
 }
