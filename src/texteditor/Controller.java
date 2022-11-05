@@ -176,7 +176,7 @@ public class Controller implements Initializable {
                 close();
                 break;
             case"toolBarViewOption":
-                toggleToolBar(e);
+                toggleToolBar();
                 break;
             case "utilitiesViewOption":
                 toggleUtilities();
@@ -237,7 +237,7 @@ public class Controller implements Initializable {
     //FORMAT TAB BUTTONS
 
     //VIEW TAB BUTTONS
-    public void toggleToolBar(ActionEvent e) {
+    public void toggleToolBar() {
         if (!toolBarViewOption.isSelected())
             mainContainer.getChildren().remove(toolBar);
         else
