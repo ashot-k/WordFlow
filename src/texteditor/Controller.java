@@ -5,6 +5,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -23,20 +26,27 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     //TODO
-    // -TAB MANAGEMENT DONE!
     // -ADD POPUP ON EXIT
-    // -OPEN RECENT TAB
-    // -SEARCH TAB
+    // -OPEN RECENT MENUITEM
+    // -SEARCH MENU
+    // -EDIT MENU
     // -SHORTCUTS
     // -FONT CONFIGURATION
     // -PRINT
     // -ZOOM SLIDER FUNCTIONALITY
+    // -ADD MORE FILE TYPES TO DRAG&DROP AND OPEN
 
     //REFERENCES TO FXML ELEMENTS
     @FXML
     VBox mainContainer;
     @FXML
     MenuBar menuBar;
+    @FXML
+    MenuItem saveMenu;
+    @FXML
+    MenuItem saveAsMenu;
+    @FXML
+    MenuItem closeMenu;
     @FXML
     ToolBar toolBar;
     @FXML
@@ -56,13 +66,12 @@ public class Controller implements Initializable {
     private Stage primaryStage;
 
 
-
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-          setupEvents();
+        setupEvents();
     }
-    private void setupEvents() {
 
+    private void setupEvents() {
         ArrayList<MenuItem> menuItems = new ArrayList<>();
         //insert all menu items to arraylist
         for (Object node : menuBar.getMenus()) {
@@ -85,8 +94,55 @@ public class Controller implements Initializable {
         }
     }
 
+    public void menuManager(ActionEvent e) throws IOException {
+        refresh();
+        String menuName = ((MenuItem) e.getTarget()).getId();
+        System.out.println(menuName);
+
+        if (menuName != null)
+            switch (menuName) {
+                case "newMenu":
+                    newTab();
+                    break;
+                case "openMenu":
+                    open();
+                    break;
+                case "openRecentMenu":
+                    break;
+                case "saveMenu":
+                    save();
+                    break;
+                case "saveAsMenu":
+                    saveAs();
+                    break;
+                case "closeMenu":
+                    close();
+                    break;
+                case "toolBarViewOption":
+                    toggleToolBar();
+                    break;
+                case "utilitiesViewOption":
+                    toggleUtilities();
+                    break;
+                case "exitMenu":
+                    System.exit(0);
+                    break;
+            }
+
+        refresh();
+    }
+
     public void refresh() {
         currentTab = tabs.getSelectionModel().getSelectedItem();
+        if (currentTab == null) {
+            saveMenu.setDisable(true);
+            saveAsMenu.setDisable(true);
+            closeMenu.setDisable(true);
+        } else {
+            saveMenu.setDisable(false);
+            saveAsMenu.setDisable(false);
+            closeMenu.setDisable(false);
+        }
     }
 
     public TextArea getCurrentTextArea() {
@@ -101,23 +157,19 @@ public class Controller implements Initializable {
             return new File(check);
     }
 
-    //create untitled tab
     public void newTab() {
         tabs.getTabs().add(createNewTab("Untitiled"));
         tabs.getSelectionModel().selectLast();
         currentTab = tabs.getSelectionModel().getSelectedItem();
-        refresh();
     }
 
     public void openTab(String name, String filePath) {
         tabs.getTabs().add(createNewTab(name, filePath));
         tabs.getSelectionModel().selectLast();
         currentTab = tabs.getSelectionModel().getSelectedItem();
-        refresh();
     }
 
     //create tab and open file
-
     public Tab createNewTab(String name) {
         Tab newTab = new Tab(name);
         HBox content = new HBox();
@@ -126,6 +178,9 @@ public class Controller implements Initializable {
         content.prefHeight(200.0);
         content.prefWidth(200.0);
         HBox.setHgrow(txt, Priority.SOMETIMES);
+        newTab.setOnClosed(event -> {
+            refresh();
+        });
 
         content.getChildren().add(txt);
         newTab.setContent(content);
@@ -141,49 +196,15 @@ public class Controller implements Initializable {
         content.prefHeight(200.0);
         content.prefWidth(200.0);
         HBox.setHgrow(txt, Priority.SOMETIMES);
-
+        newTab.setOnClosed(event -> {
+            refresh();
+        });
         newTab.setId(filePath);
 
         content.getChildren().add(txt);
         newTab.setContent(content);
-
+        txt.setText(Utilities.readFile(new File(filePath)));
         return newTab;
-    }
-
-
-    public void menuManager(ActionEvent e) throws IOException {
-        refresh();
-        String menuName = ((MenuItem)e.getTarget()).getId();
-        System.out.println(menuName);
-
-        if(menuName!= null)
-        switch (menuName) {
-            case "newMenu":
-                newTab();
-                break;
-            case "openMenu":
-                open();
-                break;
-            case "openRecentMenu":
-                break;
-            case "saveMenu":
-                save();
-                break;
-            case "saveAsMenu":
-                saveAs();
-                break;
-            case "closeMenu":
-                close();
-                break;
-            case"toolBarViewOption":
-                toggleToolBar();
-                break;
-            case "utilitiesViewOption":
-                toggleUtilities();
-                break;
-        }
-
-        refresh();
     }
 
 
@@ -197,7 +218,8 @@ public class Controller implements Initializable {
 
         if (file == null) return;
         openTab(file.getName(), file.getAbsolutePath());
-        getCurrentTextArea().setText(Utilities.readFile(file));
+        refresh();
+
     }
 
     public void save() throws FileNotFoundException {
@@ -253,4 +275,29 @@ public class Controller implements Initializable {
 
 
 
+    @FXML
+    void handleFileOverEvent(DragEvent event) {
+        Dragboard db = event.getDragboard();
+
+        if (db.hasFiles()) {
+            if (db.getFiles().get(0).getPath().endsWith("txt"))
+                event.acceptTransferModes(TransferMode.COPY);
+        } else {
+            event.consume();
+        }
+    }
+
+    @FXML
+    void handleFileDroppedEvent(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        File file = db.getFiles().get(0);
+
+        handleSelectedFile(file);
+    }
+
+    public void handleSelectedFile(File file) {
+
+        System.out.println(file.getAbsolutePath());
+        openTab(file.getName(), file.getAbsolutePath());
+    }
 }
