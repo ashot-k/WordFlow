@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Shortcuts {
-    public static void shortcutSetup(Parent scene, Stage primaryStage, Controller controller) {
+    public static void shortcutLoad(Parent scene, Stage primaryStage, Controller controller) {
 
         KeyCombination saveShortcut = new KeyCodeCombination(KeyCode.S, KeyCodeCombination.CONTROL_DOWN);
         KeyCombination newTabShortcut = new KeyCodeCombination(KeyCode.T, KeyCodeCombination.CONTROL_DOWN);
@@ -31,7 +31,6 @@ public class Shortcuts {
         shortcutList.add(closeShortcut);
         shortcutList.add(openShortcut);
 
-
         scene.setOnKeyPressed(event -> {
 
             for (KeyCombination combination : shortcutList) {
@@ -40,7 +39,7 @@ public class Shortcuts {
                     try {
                         switch (function) {
                             case "newTab":
-                                controller.openNewTab();
+                                controller.openTab();
                                 break;
                             case "open":
                                 controller.open();
@@ -55,10 +54,13 @@ public class Shortcuts {
                                 controller.close();
                                 break;
                         }
+
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
+                    }finally {
+                        controller.refresh();
                     }
 
                 }
@@ -87,7 +89,5 @@ public class Shortcuts {
 
                  */
         });
-
-
     }
 }

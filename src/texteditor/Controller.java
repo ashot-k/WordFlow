@@ -4,7 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
@@ -21,14 +20,13 @@ import javafx.stage.Window;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.HashMap;
 
-public class Controller implements Initializable {
+public class Controller {
 
     //TODO
-    // -ADD POPUP ON EXIT
     // -OPEN RECENT MENUITEM
     // -SEARCH MENU
     // -EDIT MENU
@@ -49,6 +47,9 @@ public class Controller implements Initializable {
     MenuItem saveAsMenu;
     @FXML
     MenuItem closeMenu;
+
+    @FXML
+    Menu openRecentMenu;
     @FXML
     ToolBar toolBar;
     @FXML
@@ -69,12 +70,7 @@ public class Controller implements Initializable {
     private FileChooser fileChooser = new FileChooser();
     //REFERENCE TO CURRENT TAB
     private Tab currentTab;
-
-
-    @FXML
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
+    private HashMap<MenuItem, Tab> recentlyOpened = new HashMap<>();
 
     public void setupEvents(Stage primaryStage) {
         primaryStage.setOnCloseRequest(event -> this.exit());
@@ -106,15 +102,15 @@ public class Controller implements Initializable {
             }
         });
     }
+
     public void menuManager(ActionEvent e) throws IOException {
-        refresh();
         String menuName = ((MenuItem) e.getTarget()).getId();
         System.out.println(menuName);
-
+        refresh();
         if (menuName != null)
             switch (menuName) {
                 case "newMenu":
-                    openNewTab();
+                    openTab();
                     break;
                 case "openMenu":
                     open();
@@ -144,8 +140,11 @@ public class Controller implements Initializable {
     }
 
     public void refresh() {
+
         currentTab = tabs.getSelectionModel().getSelectedItem();
+        System.out.println(tabs.getTabs().size());
         if (currentTab == null) {
+
             saveMenu.setDisable(true);
             saveAsMenu.setDisable(true);
             closeMenu.setDisable(true);
@@ -154,6 +153,7 @@ public class Controller implements Initializable {
             saveAsMenu.setDisable(false);
             closeMenu.setDisable(false);
         }
+
     }
 
     public TextArea getCurrentTextArea() {
@@ -168,32 +168,67 @@ public class Controller implements Initializable {
             return new File(check);
     }
 
-    public void openNewTab() {
-        tabs.getTabs().add(createNewTab("Untitiled"));
-        tabs.getSelectionModel().selectLast();
+    public void openTab() {
+        Tab tab = createNewTab();
+
+        tabs.getTabs().add(tab);
+        tabs.getSelectionModel().select(tab);
         currentTab = tabs.getSelectionModel().getSelectedItem();
     }
 
     public void openTab(String name, String filePath) {
-        tabs.getTabs().add(createNewTab(name, filePath));
-        tabs.getSelectionModel().selectLast();
+        Tab tab = createNewTab(name, filePath);
+        if (!isTabOpen(tab))
+            tabs.getTabs().add(tab);
+        tabs.getSelectionModel().select(findTab(tab));
         currentTab = tabs.getSelectionModel().getSelectedItem();
     }
 
-    public Tab createNewTab(String name) {
-        Tab newTab = new Tab(name);
+    public void openTab(Tab tab) {
+        if (!isTabOpen(tab))
+            tabs.getTabs().add(tab);
+
+        tabs.getSelectionModel().select(findTab(tab));
+        currentTab = tabs.getSelectionModel().getSelectedItem();
+        System.out.println();
+    }
+
+    public boolean isTabOpen(Tab tab) {
+        for (Tab t : tabs.getTabs()) {
+            if (t.getId() != null)
+                if (t.getId().equals(tab.getId()))
+                    return true;
+        }
+        return false;
+    }
+
+    public int findTab(Tab tab) {
+        for (int i = 0; i < tabs.getTabs().size(); i++) {
+            if (tabs.getTabs().get(i).getId() != null)
+                if (tabs.getTabs().get(i).getId().equals(tab.getId()))
+                    return i;
+        }
+        return -1;
+    }
+
+
+    public Tab createNewTab() {
+        Tab newTab = new Tab("Untitled");
         HBox content = new HBox();
         TextArea txt = new TextArea();
+
         content.setAlignment(Pos.CENTER);
         content.prefHeight(200.0);
         content.prefWidth(200.0);
         HBox.setHgrow(txt, Priority.SOMETIMES);
+
         newTab.setOnClosed(event -> {
             refresh();
         });
 
         content.getChildren().add(txt);
         newTab.setContent(content);
+
 
         return newTab;
     }
@@ -206,6 +241,7 @@ public class Controller implements Initializable {
         content.prefHeight(200.0);
         content.prefWidth(200.0);
         HBox.setHgrow(txt, Priority.SOMETIMES);
+
         newTab.setOnClosed(event -> {
             refresh();
         });
@@ -224,11 +260,40 @@ public class Controller implements Initializable {
         fileChooser.setTitle("Open File");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
         File file = fileChooser.showOpenDialog(stage);
-
         if (file == null) return;
-        openTab(file.getName(), file.getAbsolutePath());
-        refresh();
+
+        Tab tab = createNewTab(file.getName(), file.getAbsolutePath());
+        openTab(tab);
+
+        addToRecentlyOpened(tab);
     }
+
+    public void addToRecentlyOpened(Tab tab) {
+        MenuItem newRecentlyOpened = new MenuItem(tab.getText());
+        newRecentlyOpened.setOnAction(event -> openTab(tab));
+
+        int index = findInRecentMenu(newRecentlyOpened);
+
+        if(index != -1 ) {
+            openRecentMenu.getItems().remove(index);
+            openRecentMenu.getItems().add(0, newRecentlyOpened);
+        }
+        else if (openRecentMenu.getItems().size() < 5)
+            openRecentMenu.getItems().add(0,newRecentlyOpened);
+        else {
+            openRecentMenu.getItems().remove(openRecentMenu.getItems().size() - 1);
+            openRecentMenu.getItems().add(newRecentlyOpened);
+        }
+    }
+    public int findInRecentMenu(MenuItem item){
+        for (int i = 0; i < openRecentMenu.getItems().size(); i++) {
+            if(openRecentMenu.getItems().get(i).getText().equals(item.getText())){
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
     public void save() throws FileNotFoundException {
         if (tabs.getTabs().isEmpty()) return;
@@ -262,12 +327,14 @@ public class Controller implements Initializable {
         tabs.getTabs().remove(tabs.getSelectionModel().getSelectedItem());
     }
 
+
     public void exit() {
         if (!tabs.getTabs().isEmpty())
             AlertBox.exitSaveCheck(this, "Exit", "Do you want to save changes to " + currentTab.getText());
         else closeProgram();
     }
-    public void closeProgram(){
+
+    public void closeProgram() {
         System.exit(0);
     }
     //EDIT TAB BUTTONS
@@ -275,6 +342,7 @@ public class Controller implements Initializable {
     //FORMAT TAB BUTTONS
 
     //VIEW TAB BUTTONS
+
     public void toggleToolBar() {
         if (!toolBarViewOption.isSelected())
             mainContainer.getChildren().remove(toolBar);
@@ -289,6 +357,8 @@ public class Controller implements Initializable {
             mainContainer.getChildren().add(3, utilitiesBar);
     }
 
+
+    // FILE DRAG AND DROP EVENTS
     @FXML
     void handleFileOverEvent(DragEvent event) {
         Dragboard db = event.getDragboard();
