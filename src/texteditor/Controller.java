@@ -69,7 +69,11 @@ public class Controller {
     private HashMap<MenuItem, Tab> recentlyOpened = new HashMap<>();
 
     public void setupEvents(Stage primaryStage) {
-        primaryStage.setOnCloseRequest(event -> this.exit());
+        primaryStage.setOnCloseRequest(event -> {
+            event.consume();
+            this.exit();
+        });
+
         ArrayList<MenuItem> menuItems = new ArrayList<>();
 
         //insert all menu items to arraylist
@@ -151,7 +155,6 @@ public class Controller {
 
     }
 
-
     //FILE TAB BUTTONS
     public void open() {
         Window stage = mainContainer.getScene().getWindow();
@@ -166,9 +169,9 @@ public class Controller {
     }
 
     public void addToRecentlyOpened(Tab tab) {
+        //create new menuitem under open_recent menu
         MenuItem newRecentlyOpened = new MenuItem(tab.getText());
         newRecentlyOpened.setOnAction(event -> TabManagement.openTab(tabs, tab));
-
         int index = findInRecentMenu(newRecentlyOpened);
 
         if (index != -1) {
@@ -223,9 +226,13 @@ public class Controller {
     }
 
     public void exit() {
-        if (!tabs.getTabs().isEmpty())
-            AlertBox.exitSaveCheck(this, "Exit", "Do you want to save changes to " + currentTab.getText());
-        else closeProgram();
+        if (!tabs.getTabs().isEmpty()) {
+            if (currentTab.getId() == null)
+                AlertBox.exitSaveCheck(this, "Exit", "Do you want to save changes to ", currentTab.getText());
+            else
+                AlertBox.exitSaveCheck(this, "Exit", "Do you want to save changes to ", currentTab.getId());
+        } else
+            closeProgram();
     }
 
     public void closeProgram() {
