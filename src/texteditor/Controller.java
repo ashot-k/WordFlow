@@ -107,7 +107,7 @@ public class Controller {
         if (menuName != null)
             switch (menuName) {
                 case "newMenu":
-                    openTab();
+                    TabManagement.openTab(tabs);
                     break;
                 case "openMenu":
                     open();
@@ -139,7 +139,6 @@ public class Controller {
     public void refresh() {
 
         currentTab = tabs.getSelectionModel().getSelectedItem();
-        System.out.println(tabs.getTabs().size());
         if (currentTab == null) {
 
             saveMenu.setDisable(true);
@@ -165,90 +164,7 @@ public class Controller {
             return new File(check);
     }
 
-    public void openTab() {
-        Tab tab = createNewTab();
 
-        tabs.getTabs().add(tab);
-        tabs.getSelectionModel().select(tab);
-        currentTab = tabs.getSelectionModel().getSelectedItem();
-    }
-
-    public void openTab(String name, String filePath) {
-        Tab tab = createNewTab(name, filePath);
-        if (!isTabOpen(tab))
-            tabs.getTabs().add(tab);
-        tabs.getSelectionModel().select(findTab(tab));
-        currentTab = tabs.getSelectionModel().getSelectedItem();
-    }
-
-    public void openTab(Tab tab) {
-        if (!isTabOpen(tab))
-            tabs.getTabs().add(tab);
-
-        tabs.getSelectionModel().select(findTab(tab));
-        currentTab = tabs.getSelectionModel().getSelectedItem();
-        System.out.println();
-    }
-
-    public boolean isTabOpen(Tab tab) {
-        for (Tab t : tabs.getTabs()) {
-            if (t.getId() != null)
-                if (t.getId().equals(tab.getId()))
-                    return true;
-        }
-        return false;
-    }
-
-    public int findTab(Tab tab) {
-        for (int i = 0; i < tabs.getTabs().size(); i++) {
-            if (tabs.getTabs().get(i).getId() != null)
-                if (tabs.getTabs().get(i).getId().equals(tab.getId()))
-                    return i;
-        }
-        return -1;
-    }
-
-
-    public Tab createNewTab() {
-        Tab newTab = new Tab("Untitled");
-        HBox content = new HBox();
-        TextArea txt = new TextArea();
-
-        content.setAlignment(Pos.CENTER);
-        content.prefHeight(200.0);
-        content.prefWidth(200.0);
-        HBox.setHgrow(txt, Priority.SOMETIMES);
-
-        newTab.setOnClosed(event -> {
-            refresh();
-        });
-
-        content.getChildren().add(txt);
-        newTab.setContent(content);
-
-
-        return newTab;
-    }
-
-    public Tab createNewTab(String name, String filePath) {
-        Tab newTab = new Tab(name);
-        HBox content = new HBox();
-        TextArea txt = new TextArea();
-        content.setAlignment(Pos.CENTER);
-        content.prefHeight(200.0);
-        content.prefWidth(200.0);
-        HBox.setHgrow(txt, Priority.SOMETIMES);
-
-        newTab.setOnClosed(event -> {
-            refresh();
-        });
-        newTab.setId(filePath);
-
-        content.getChildren().add(txt);
-        newTab.setContent(content);
-        txt.setText(Utilities.readFile(new File(filePath)));
-        return newTab;
-    }
 
     //FILE TAB BUTTONS
     public void open() {
@@ -259,15 +175,15 @@ public class Controller {
         File file = fileChooser.showOpenDialog(stage);
         if (file == null) return;
 
-        Tab tab = createNewTab(file.getName(), file.getAbsolutePath());
-        openTab(tab);
+        Tab tab = TabManagement.createNewTab(file.getName(), file.getAbsolutePath());
+        TabManagement.openTab(tabs, tab);
 
         addToRecentlyOpened(tab);
     }
 
     public void addToRecentlyOpened(Tab tab) {
         MenuItem newRecentlyOpened = new MenuItem(tab.getText());
-        newRecentlyOpened.setOnAction(event -> openTab(tab));
+        newRecentlyOpened.setOnAction(event -> TabManagement.openTab(tabs, tab));
 
         int index = findInRecentMenu(newRecentlyOpened);
 
@@ -379,7 +295,15 @@ public class Controller {
     public void handleSelectedFile(File file) {
 
         System.out.println("Dropped file: " + file.getAbsolutePath());
-        openTab(file.getName(), file.getAbsolutePath());
+        TabManagement.openTab(tabs, file.getName(), file.getAbsolutePath());
     }
 
+
+    public Tab getCurrentTab() {
+        return currentTab;
+    }
+
+    public void setCurrentTab(Tab currentTab) {
+        this.currentTab = currentTab;
+    }
 }

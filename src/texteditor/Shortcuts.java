@@ -39,7 +39,7 @@ public class Shortcuts {
                     try {
                         switch (function) {
                             case "newTab":
-                                controller.openTab();
+                                TabManagement.openTab(controller.tabs);
                                 break;
                             case "open":
                                 controller.open();
