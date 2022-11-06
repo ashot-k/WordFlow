@@ -62,7 +62,6 @@ public class Controller {
     @FXML
     Label zoomAmount;
 
-
     // FILE CHOOSER FOR OPENING AND SAVING FILES
     private FileChooser fileChooser = new FileChooser();
     //REFERENCE TO CURRENT TAB
@@ -152,27 +151,12 @@ public class Controller {
 
     }
 
-    public TextArea getCurrentTextArea() {
-        return (TextArea) (((HBox) currentTab.getContent()).getChildren().get(0));
-    }
-
-    public File getCurrentPath() {
-        String check = currentTab.getId();
-        if (check == null)
-            return null;
-        else
-            return new File(check);
-    }
-
-
 
     //FILE TAB BUTTONS
     public void open() {
         Window stage = mainContainer.getScene().getWindow();
 
-        fileChooser.setTitle("Open File");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
-        File file = fileChooser.showOpenDialog(stage);
+        File file = Utilities.openFile(fileChooser, (Stage) stage);
         if (file == null) return;
 
         Tab tab = TabManagement.createNewTab(file.getName(), file.getAbsolutePath());
@@ -187,26 +171,25 @@ public class Controller {
 
         int index = findInRecentMenu(newRecentlyOpened);
 
-        if(index != -1 ) {
+        if (index != -1) {
             openRecentMenu.getItems().remove(index);
             openRecentMenu.getItems().add(0, newRecentlyOpened);
-        }
-        else if (openRecentMenu.getItems().size() < 5)
-            openRecentMenu.getItems().add(0,newRecentlyOpened);
+        } else if (openRecentMenu.getItems().size() < 5)
+            openRecentMenu.getItems().add(0, newRecentlyOpened);
         else {
             openRecentMenu.getItems().remove(openRecentMenu.getItems().size() - 1);
             openRecentMenu.getItems().add(newRecentlyOpened);
         }
     }
-    public int findInRecentMenu(MenuItem item){
+
+    public int findInRecentMenu(MenuItem item) {
         for (int i = 0; i < openRecentMenu.getItems().size(); i++) {
-            if(openRecentMenu.getItems().get(i).getText().equals(item.getText())){
+            if (openRecentMenu.getItems().get(i).getText().equals(item.getText())) {
                 return i;
             }
         }
         return -1;
     }
-
 
     public void save() throws FileNotFoundException {
         if (tabs.getTabs().isEmpty()) return;
@@ -221,13 +204,12 @@ public class Controller {
     public void saveAs() throws FileNotFoundException {
         if (tabs.getTabs().isEmpty()) return;
         Window stage = mainContainer.getScene().getWindow();
-        //choose file destination // filerchooser setup
-        fileChooser.setTitle("Save");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
+
+        //choose file destination // filechooser setup
         File f = getCurrentPath();
         if (f != null) fileChooser.setInitialFileName(f.getName());
+        File file = Utilities.saveFile(fileChooser, (Stage) stage);
 
-        File file = fileChooser.showSaveDialog(stage);
         //try to create text file at destination
         Utilities.writeFile(file, getCurrentTextArea());
 
@@ -240,7 +222,6 @@ public class Controller {
         tabs.getTabs().remove(tabs.getSelectionModel().getSelectedItem());
     }
 
-
     public void exit() {
         if (!tabs.getTabs().isEmpty())
             AlertBox.exitSaveCheck(this, "Exit", "Do you want to save changes to " + currentTab.getText());
@@ -250,6 +231,7 @@ public class Controller {
     public void closeProgram() {
         System.exit(0);
     }
+
     //EDIT TAB BUTTONS
 
     //FORMAT TAB BUTTONS
@@ -270,8 +252,7 @@ public class Controller {
             mainContainer.getChildren().add(3, utilitiesBar);
     }
 
-
-    // FILE DRAG AND DROP EVENTS
+    // FILE DRAG & DROP EVENTS
     @FXML
     void handleFileOverEvent(DragEvent event) {
         Dragboard db = event.getDragboard();
@@ -293,12 +274,14 @@ public class Controller {
     }
 
     public void handleSelectedFile(File file) {
-
         System.out.println("Dropped file: " + file.getAbsolutePath());
-        TabManagement.openTab(tabs, file.getName(), file.getAbsolutePath());
+        Tab tab = TabManagement.createNewTab(file.getName(), file.getAbsolutePath());
+        TabManagement.openTab(tabs, tab);
+        addToRecentlyOpened(tab);
     }
 
 
+    //GETTERS & SETTERS
     public Tab getCurrentTab() {
         return currentTab;
     }
@@ -306,4 +289,21 @@ public class Controller {
     public void setCurrentTab(Tab currentTab) {
         this.currentTab = currentTab;
     }
+
+    public MenuBar getMenuBar() {
+        return menuBar;
+    }
+
+    public TextArea getCurrentTextArea() {
+        return (TextArea) (((HBox) currentTab.getContent()).getChildren().get(0));
+    }
+
+    public File getCurrentPath() {
+        String check = currentTab.getId();
+        if (check == null)
+            return null;
+        else
+            return new File(check);
+    }
+
 }

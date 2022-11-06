@@ -59,14 +59,12 @@ public class Shortcuts {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
-                    }finally {
+                    } finally {
                         controller.refresh();
                     }
-
                 }
             }
-
-                /*
+            /*
                 if (saveShortcut.match(event)) {
                     try {
                         controller.save();
@@ -86,8 +84,11 @@ public class Shortcuts {
                 } else if (openShortcut.match(event)) {
                     controller.open();
                 }
-
                  */
         });
+    }
+
+    public static void updateMenus() {
+
     }
 }
