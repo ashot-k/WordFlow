@@ -1,5 +1,7 @@
 package texteditor;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -57,22 +59,27 @@ public class Controller implements Initializable {
     CheckMenuItem utilitiesViewOption;
     @FXML
     TabPane tabs;
+    @FXML
+    Slider zoomSlider;
+    @FXML
+    Label zoomAmount;
 
 
     // FILE CHOOSER FOR OPENING AND SAVING FILES
     private FileChooser fileChooser = new FileChooser();
     //REFERENCE TO CURRENT TAB
     private Tab currentTab;
-    private Stage primaryStage;
 
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        setupEvents();
+
     }
 
-    private void setupEvents() {
+    public void setupEvents(Stage primaryStage) {
+        primaryStage.setOnCloseRequest(event -> this.exit());
         ArrayList<MenuItem> menuItems = new ArrayList<>();
+
         //insert all menu items to arraylist
         for (Object node : menuBar.getMenus()) {
             if (node instanceof MenuItem)
@@ -92,8 +99,13 @@ public class Controller implements Initializable {
                 }
             });
         }
+        zoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                zoomAmount.textProperty().setValue(String.valueOf(newValue.intValue()));
+            }
+        });
     }
-
     public void menuManager(ActionEvent e) throws IOException {
         refresh();
         String menuName = ((MenuItem) e.getTarget()).getId();
@@ -102,7 +114,7 @@ public class Controller implements Initializable {
         if (menuName != null)
             switch (menuName) {
                 case "newMenu":
-                    newTab();
+                    openNewTab();
                     break;
                 case "openMenu":
                     open();
@@ -125,10 +137,9 @@ public class Controller implements Initializable {
                     toggleUtilities();
                     break;
                 case "exitMenu":
-                    System.exit(0);
+                    exit();
                     break;
             }
-
         refresh();
     }
 
@@ -157,7 +168,7 @@ public class Controller implements Initializable {
             return new File(check);
     }
 
-    public void newTab() {
+    public void openNewTab() {
         tabs.getTabs().add(createNewTab("Untitiled"));
         tabs.getSelectionModel().selectLast();
         currentTab = tabs.getSelectionModel().getSelectedItem();
@@ -169,7 +180,6 @@ public class Controller implements Initializable {
         currentTab = tabs.getSelectionModel().getSelectedItem();
     }
 
-    //create tab and open file
     public Tab createNewTab(String name) {
         Tab newTab = new Tab(name);
         HBox content = new HBox();
@@ -207,7 +217,6 @@ public class Controller implements Initializable {
         return newTab;
     }
 
-
     //FILE TAB BUTTONS
     public void open() {
         Window stage = mainContainer.getScene().getWindow();
@@ -219,7 +228,6 @@ public class Controller implements Initializable {
         if (file == null) return;
         openTab(file.getName(), file.getAbsolutePath());
         refresh();
-
     }
 
     public void save() throws FileNotFoundException {
@@ -254,6 +262,14 @@ public class Controller implements Initializable {
         tabs.getTabs().remove(tabs.getSelectionModel().getSelectedItem());
     }
 
+    public void exit() {
+        if (!tabs.getTabs().isEmpty())
+            AlertBox.exitSaveCheck(this, "Exit", "Do you want to save changes to " + currentTab.getText());
+        else closeProgram();
+    }
+    public void closeProgram(){
+        System.exit(0);
+    }
     //EDIT TAB BUTTONS
 
     //FORMAT TAB BUTTONS
@@ -272,8 +288,6 @@ public class Controller implements Initializable {
         else
             mainContainer.getChildren().add(3, utilitiesBar);
     }
-
-
 
     @FXML
     void handleFileOverEvent(DragEvent event) {
@@ -297,7 +311,8 @@ public class Controller implements Initializable {
 
     public void handleSelectedFile(File file) {
 
-        System.out.println(file.getAbsolutePath());
+        System.out.println("Dropped file: " + file.getAbsolutePath());
         openTab(file.getName(), file.getAbsolutePath());
     }
+
 }
