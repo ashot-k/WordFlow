@@ -27,7 +27,7 @@ public class Main extends Application {
         primaryStage.setTitle("TextEditor");
         primaryStage.setScene(new Scene(root, 650, 500));
 
-        Shortcuts.shortcutSetup(primaryStage.getScene().getRoot(), primaryStage, controller);
+        Shortcuts.shortcutLoad(primaryStage.getScene().getRoot(), primaryStage, controller);
 
         primaryStage.show();
     }
