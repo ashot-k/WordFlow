@@ -39,7 +39,7 @@ public class Shortcuts {
                     try {
                         switch (function) {
                             case "newTab":
-                                controller.openTab();
+                                TabManagement.openTab(controller.tabs);
                                 break;
                             case "open":
                                 controller.open();
@@ -59,14 +59,12 @@ public class Shortcuts {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
-                    }finally {
+                    } finally {
                         controller.refresh();
                     }
-
                 }
             }
-
-                /*
+            /*
                 if (saveShortcut.match(event)) {
                     try {
                         controller.save();
@@ -86,8 +84,11 @@ public class Shortcuts {
                 } else if (openShortcut.match(event)) {
                     controller.open();
                 }
-
                  */
         });
+    }
+
+    public static void updateMenus() {
+
     }
 }

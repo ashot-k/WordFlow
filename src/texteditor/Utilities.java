@@ -1,6 +1,9 @@
 package texteditor;
 
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.*;
 
@@ -33,4 +36,18 @@ public class Utilities {
         return textFromFile.toString();
     }
 
+    public static File openFile(FileChooser fileChooser, Stage stage) {
+        fileChooser.setTitle("Open File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
+        File file = fileChooser.showOpenDialog(stage);
+        return file;
     }
+    public static File saveFile(FileChooser fileChooser, Stage stage){
+        fileChooser.setTitle("Save");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
+
+        File file = fileChooser.showSaveDialog(stage);
+        return file;
+    }
+
+}
