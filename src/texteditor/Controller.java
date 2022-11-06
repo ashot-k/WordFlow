@@ -20,21 +20,18 @@ import javafx.stage.Window;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Controller {
 
     //TODO
-    // -OPEN RECENT MENUITEM
     // -SEARCH MENU
     // -EDIT MENU
     // -SHORTCUTS
     // -FONT CONFIGURATION
     // -PRINT
     // -ZOOM SLIDER FUNCTIONALITY
-    // -ADD MORE FILE TYPES TO DRAG&DROP AND OPEN
 
     //REFERENCES TO FXML ELEMENTS
     @FXML
