@@ -115,27 +115,28 @@
     <TabPane fx:id="tabs" onDragDropped="#handleFileDroppedEvent" onDragOver="#handleFileOverEvent" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #EEEEEE; -fx-view-order: 1;" VBox.vgrow="ALWAYS" />
     <GridPane fx:id="utilitiesBar" alignment="CENTER" style="-fx-background-color: #E0E0E0;">
         <columnConstraints>
-            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="190.0" minWidth="137.0" prefWidth="185.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+            <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="190.0" minWidth="137.0" prefWidth="185.0" />
+         <ColumnConstraints hgrow="ALWAYS" />
+            <ColumnConstraints halignment="RIGHT" hgrow="NEVER" />
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="0.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints minHeight="45.0" valignment="CENTER" vgrow="ALWAYS" />
+            <RowConstraints minHeight="45.0" valignment="CENTER" />
         </rowConstraints>
         <children>
-            <Label alignment="CENTER" style="-fx-view-order: 0;" text="Text Editor" textAlignment="CENTER">
+            <Label style="-fx-view-order: 0;" text="Text Editor" GridPane.halignment="LEFT">
                 <font>
                     <Font name="Amiri Slanted" size="22.0" />
                 </font>
                 <padding>
-                    <Insets left="5.0" />
+                    <Insets left="10.0" />
                 </padding>
             </Label>
-         <HBox alignment="CENTER_RIGHT" spacing="10.0" GridPane.columnIndex="1">
+         <HBox alignment="CENTER_RIGHT" spacing="10.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
             <children>
                   <Label alignment="CENTER" text="Zoom" />
                   <Slider fx:id="zoomSlider" accessibleText="Zoom" blockIncrement="25.0" max="200.0" min="25.0" minHeight="-Infinity" minWidth="-Infinity" minorTickCount="25" showTickMarks="true" snapToTicks="true" value="100.0" />
-                  <Label fx:id="zoomAmount" text="100">
+                  <Label fx:id="zoomAmount" text="100" HBox.hgrow="NEVER">
                       <padding>
                           <Insets right="5.0" />
                       </padding>
