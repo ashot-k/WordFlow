@@ -17,6 +17,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -103,7 +104,7 @@ public class Controller {
         });
     }
 
-    public void menuManager(ActionEvent e) throws IOException {
+    public void menuManager(ActionEvent e) throws IOException{
         String menuName = ((MenuItem) e.getTarget()).getId();
         System.out.println(menuName);
         refresh();
@@ -122,6 +123,9 @@ public class Controller {
                     break;
                 case "saveAsMenu":
                     saveAs();
+                    break;
+                case "print":
+                    print();
                     break;
                 case "closeMenu":
                     close();
@@ -235,10 +239,13 @@ public class Controller {
             closeProgram();
     }
 
+
     public void closeProgram() {
         System.exit(0);
     }
-
+    public void print() {
+        Utilities.print(getCurrentTextArea());
+    }
     //EDIT TAB BUTTONS
 
     //FORMAT TAB BUTTONS

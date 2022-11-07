@@ -34,6 +34,8 @@
             <MenuItem fx:id="saveAsMenu" disable="true" text="Save As" />
             <MenuItem fx:id="closeMenu" disable="true" text="Close" />
          <SeparatorMenuItem mnemonicParsing="false" />
+         <MenuItem fx:id="print" text="Print..." />
+         <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="exitMenu" text="Exit" />
         </Menu>
         <Menu text="Edit" />

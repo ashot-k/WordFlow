@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class Main extends Application {
     private Controller controller;
-
+    public static Stage mainStage;
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainInterface.fxml"));
@@ -24,8 +24,8 @@ public class Main extends Application {
 
         Shortcuts.onLoad(primaryStage.getScene().getRoot(), primaryStage, controller);
         TabManagement.onLoad(controller);
-
         primaryStage.show();
+    mainStage = primaryStage;
     }
 
     public static void main(String[] args) {
