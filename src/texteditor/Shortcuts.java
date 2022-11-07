@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Shortcuts {
-    public static void shortcutLoad(Parent scene, Stage primaryStage, Controller controller) {
+    public static void onLoad(Parent scene, Stage primaryStage, Controller controller) {
 
         KeyCombination saveShortcut = new KeyCodeCombination(KeyCode.S, KeyCodeCombination.CONTROL_DOWN);
         KeyCombination newTabShortcut = new KeyCodeCombination(KeyCode.T, KeyCodeCombination.CONTROL_DOWN);
