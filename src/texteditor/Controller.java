@@ -4,20 +4,19 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -47,6 +46,9 @@ public class Controller {
     MenuItem closeMenu;
 
     @FXML
+    TextArea textArea;
+
+    @FXML
     Menu openRecentMenu;
     @FXML
     ToolBar toolBar;
@@ -68,6 +70,36 @@ public class Controller {
     //REFERENCE TO CURRENT TAB
     private Tab currentTab;
     private HashMap<MenuItem, Tab> recentlyOpened = new HashMap<>();
+
+    private boolean check = false;
+
+    public void bold(){
+
+
+         double defaultSize = getCurrentTextArea().getFont().getSize();
+         String defaultFamily = getCurrentTextArea().getFont().getFamily();
+
+
+        Font defaultFont =Font.font(defaultFamily,FontWeight.NORMAL,defaultSize);
+        Font boldFont = Font.font(defaultFamily,FontWeight.BOLD,defaultSize);
+
+        String selected = getCurrentTextArea().getSelectedText();
+        String text = getCurrentTextArea().getText();
+
+
+        if (!check){
+
+            getCurrentTextArea().setFont(boldFont);
+            check=true;
+
+        }else {
+            getCurrentTextArea().setFont(defaultFont);
+            check=false;
+
+        }
+
+    }
+
 
     public void setupEvents(Stage primaryStage) {
         primaryStage.setOnCloseRequest(event -> {
@@ -104,7 +136,7 @@ public class Controller {
         });
     }
 
-    public void menuManager(ActionEvent e) throws IOException{
+    public void menuManager(ActionEvent e) throws IOException {
         String menuName = ((MenuItem) e.getTarget()).getId();
         System.out.println(menuName);
         refresh();
@@ -123,9 +155,6 @@ public class Controller {
                     break;
                 case "saveAsMenu":
                     saveAs();
-                    break;
-                case "print":
-                    print();
                     break;
                 case "closeMenu":
                     close();
@@ -239,13 +268,10 @@ public class Controller {
             closeProgram();
     }
 
-
     public void closeProgram() {
         System.exit(0);
     }
-    public void print() {
-        Utilities.print(getCurrentTextArea());
-    }
+
     //EDIT TAB BUTTONS
 
     //FORMAT TAB BUTTONS
