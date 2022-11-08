@@ -43,6 +43,8 @@ public class Controller {
     @FXML
     MenuItem saveAsMenu;
     @FXML
+    MenuItem print;
+    @FXML
     MenuItem closeMenu;
 
     @FXML
@@ -100,7 +102,6 @@ public class Controller {
 
     }
 
-
     public void setupEvents(Stage primaryStage) {
         primaryStage.setOnCloseRequest(event -> {
             event.consume();
@@ -136,7 +137,7 @@ public class Controller {
         });
     }
 
-    public void menuManager(ActionEvent e) throws IOException {
+    public void menuManager(ActionEvent e) throws IOException{
         String menuName = ((MenuItem) e.getTarget()).getId();
         System.out.println(menuName);
         refresh();
@@ -155,6 +156,9 @@ public class Controller {
                     break;
                 case "saveAsMenu":
                     saveAs();
+                    break;
+                case "print":
+                    Utilities.print(getCurrentTextArea());
                     break;
                 case "closeMenu":
                     close();
@@ -180,10 +184,12 @@ public class Controller {
             saveMenu.setDisable(true);
             saveAsMenu.setDisable(true);
             closeMenu.setDisable(true);
+            print.setDisable(true);
         } else {
             saveMenu.setDisable(false);
             saveAsMenu.setDisable(false);
             closeMenu.setDisable(false);
+            print.setDisable(false);
         }
 
     }

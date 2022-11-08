@@ -13,6 +13,8 @@ import javax.swing.*;
 import java.awt.print.PrinterException;
 import java.io.*;
 
+import static texteditor.AlertBox.waitWindow;
+
 public class Utilities {
 
     public static void writeFile(File file, TextArea txt) throws FileNotFoundException {
@@ -61,7 +63,7 @@ public class Utilities {
         printFile(txtArea, Main.mainStage);
     }
 
-    private static void printFile(TextArea txtArea, Stage primaryStage) {
+    private static void printFile(TextArea txtArea, Stage primaryStage)  {
         // Create the PrinterJob
         PrinterJob job = PrinterJob.createPrinterJob();
 
@@ -80,8 +82,6 @@ public class Utilities {
                 job.endJob();
                 System.out.println("printed");
             }
-            ((Stage)AlertBox.waitWindow).close();
-            AlertBox.waitWindow = null;
         }
 
     }
