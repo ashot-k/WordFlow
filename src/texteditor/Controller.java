@@ -2,8 +2,13 @@ package texteditor;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -11,6 +16,8 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -20,6 +27,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
 
 public class Controller {
 
@@ -348,6 +357,50 @@ public class Controller {
             return null;
         else
             return new File(check);
+    }
+
+    public void FontMenu()throws IOException{
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FontList.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = new Stage();
+        stage.setTitle("Font");
+        //  stage.setScene(new Scene(root,500,400));
+        stage.show();
+
+        List<String> families = Font.getFamilies();
+        ListIterator<String> it = families.listIterator();
+
+
+        ObservableList<String> fontList = FXCollections.observableList(families);
+
+        ComboBox<String> comboBox = new ComboBox<>();
+
+
+        comboBox.getItems().addAll(fontList);
+
+        HBox hbox = new HBox(comboBox);
+
+        Scene scene = new Scene(hbox, 200, 100);
+        stage.setScene(scene);
+
+       /* fontbox.getItems().add(it.next());
+
+        fontbox.setItems(fontList);*/
+
+
+
+
+    }
+    private void getChoice(ComboBox<String> comboBox){
+        String choice = comboBox.getValue();
+        double defaultSize = getCurrentTextArea().getFont().getSize();
+
+        Font selectedFont =Font.font(choice, FontWeight.NORMAL,defaultSize);
+
+        getCurrentTextArea().setFont(selectedFont);
+
     }
 
 
