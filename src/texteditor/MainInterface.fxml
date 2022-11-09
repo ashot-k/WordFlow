@@ -51,7 +51,7 @@
          </items></Menu>
         <Menu text="Format">
             <items>
-                <MenuItem mnemonicParsing="false" text="Font..." onAction="#FontMenu"/>
+                <MenuItem fx:id="fontMenu" mnemonicParsing="false" text="Font..." />
             <RadioMenuItem mnemonicParsing="false" text="Word Wrap" />
             </items>
         </Menu>

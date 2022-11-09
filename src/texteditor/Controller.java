@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -26,7 +27,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -55,6 +55,8 @@ public class Controller {
 
     @FXML
     Menu openRecentMenu;
+    @FXML
+    MenuItem fontMenu;
     @FXML
     ToolBar toolBar;
     @FXML
@@ -113,7 +115,7 @@ public class Controller {
             });
         }
 
-
+        refresh();
     }
 
     /*
@@ -165,6 +167,9 @@ public class Controller {
                 case "utilitiesViewOption":
                     toggleUtilities();
                     break;
+                case "fontMenu":
+                    fontSelection();
+                    break;
             }
     }
 
@@ -172,17 +177,20 @@ public class Controller {
         currentTab = tabs.getSelectionModel().getSelectedItem();
         toggleMenus();
     }
-    public void toggleMenus(){
+
+    public void toggleMenus() {
         if (currentTab == null) {
             saveMenu.setDisable(true);
             saveAsMenu.setDisable(true);
             closeMenu.setDisable(true);
             printMenu.setDisable(true);
+            fontMenu.setDisable(true);
         } else {
             saveMenu.setDisable(false);
             saveAsMenu.setDisable(false);
             closeMenu.setDisable(false);
             printMenu.setDisable(false);
+            fontMenu.setDisable(false);
         }
     }
 
@@ -279,7 +287,37 @@ public class Controller {
 
 
     //FORMAT MENU CALLS
+    public void fontSelection() {
 
+        Stage stage = new Stage();
+        stage.setTitle("Font");
+
+        List<String> families = Font.getFamilies();
+        ObservableList<String> fontList = FXCollections.observableList(families);
+
+        ComboBox<String> fontSelector = new ComboBox<>();
+        fontSelector.getItems().addAll(fontList);
+        fontSelector.getSelectionModel().select("Arial");
+
+        VBox vbox = new VBox(20);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.getChildren().add(fontSelector);
+
+        stage.setScene(new Scene(vbox, 300, 100));
+        stage.show();
+
+        fontSelector.setOnAction(event -> getChoice(fontSelector));
+    }
+
+    private void getChoice(ComboBox<String> comboBox) {
+        String choice = comboBox.getValue();
+        double defaultSize = getCurrentTextArea().getFont().getSize();
+
+        Font selectedFont = Font.font(choice, FontWeight.NORMAL, defaultSize);
+
+        getCurrentTextArea().setFont(selectedFont);
+
+    }
     //VIEW MENU CALLS
 
     public void toggleToolBar() {
@@ -357,50 +395,6 @@ public class Controller {
             return null;
         else
             return new File(check);
-    }
-
-    public void FontMenu()throws IOException{
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FontList.fxml"));
-        Parent root = loader.load();
-
-        Stage stage = new Stage();
-        stage.setTitle("Font");
-        //  stage.setScene(new Scene(root,500,400));
-        stage.show();
-
-        List<String> families = Font.getFamilies();
-        ListIterator<String> it = families.listIterator();
-
-
-        ObservableList<String> fontList = FXCollections.observableList(families);
-
-        ComboBox<String> comboBox = new ComboBox<>();
-
-
-        comboBox.getItems().addAll(fontList);
-
-        HBox hbox = new HBox(comboBox);
-
-        Scene scene = new Scene(hbox, 200, 100);
-        stage.setScene(scene);
-
-       /* fontbox.getItems().add(it.next());
-
-        fontbox.setItems(fontList);*/
-
-
-
-
-    }
-    private void getChoice(ComboBox<String> comboBox){
-        String choice = comboBox.getValue();
-        double defaultSize = getCurrentTextArea().getFont().getSize();
-
-        Font selectedFont =Font.font(choice, FontWeight.NORMAL,defaultSize);
-
-        getCurrentTextArea().setFont(selectedFont);
-
     }
 
 
