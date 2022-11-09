@@ -11,8 +11,6 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -30,8 +28,7 @@ public class Controller {
     // -EDIT MENU
     // -SHORTCUTS
     // -FONT CONFIGURATION
-    // -PRINT
-    // -ZOOM SLIDER FUNCTIONALITY
+    // -ZOOM SLIDER FUNCTIONALITY --SCRAPPED
 
     //REFERENCES TO FXML ELEMENTS
     @FXML
@@ -43,12 +40,9 @@ public class Controller {
     @FXML
     MenuItem saveAsMenu;
     @FXML
-    MenuItem print;
+    MenuItem printMenu;
     @FXML
     MenuItem closeMenu;
-
-    @FXML
-    TextArea textArea;
 
     @FXML
     Menu openRecentMenu;
@@ -61,55 +55,35 @@ public class Controller {
     @FXML
     CheckMenuItem utilitiesViewOption;
     @FXML
+    Label wordCounter;
+    @FXML
     TabPane tabs;
-    @FXML
-    Slider zoomSlider;
-    @FXML
-    Label zoomAmount;
+
 
     // FILE CHOOSER FOR OPENING AND SAVING FILES
     private FileChooser fileChooser = new FileChooser();
     //REFERENCE TO CURRENT TAB
     private Tab currentTab;
-    private HashMap<MenuItem, Tab> recentlyOpened = new HashMap<>();
 
-    private boolean check = false;
-
-    public void bold(){
-
-
-         double defaultSize = getCurrentTextArea().getFont().getSize();
-         String defaultFamily = getCurrentTextArea().getFont().getFamily();
-
-
-        Font defaultFont =Font.font(defaultFamily,FontWeight.NORMAL,defaultSize);
-        Font boldFont = Font.font(defaultFamily,FontWeight.BOLD,defaultSize);
-
-        String selected = getCurrentTextArea().getSelectedText();
-        String text = getCurrentTextArea().getText();
-
-
-        if (!check){
-
-            getCurrentTextArea().setFont(boldFont);
-            check=true;
-
-        }else {
-            getCurrentTextArea().setFont(defaultFont);
-            check=false;
-
-        }
-
-    }
-
-    public void setupEvents(Stage primaryStage) {
+    public void setup(Stage primaryStage) {
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
+        //exit check event
         primaryStage.setOnCloseRequest(event -> {
             event.consume();
             this.exit();
         });
+        //current tab refresh event
+        tabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+            @Override
+            public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+                System.out.println("changed");
+                refresh();
+                wordCounter();
+            }
+        });
 
+        //menus event setup
         ArrayList<MenuItem> menuItems = new ArrayList<>();
-
         //insert all menu items to arraylist
         for (Object node : menuBar.getMenus()) {
             if (node instanceof MenuItem)
@@ -123,28 +97,37 @@ public class Controller {
         for (MenuItem menuItem : menuItems) {
             menuItem.setOnAction(event -> {
                 try {
-                    menuManager(event);
+                    menuBarManager(event);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             });
         }
+
+
+    }
+
+    /*
         zoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
                 zoomAmount.textProperty().setValue(String.valueOf(newValue.intValue()));
             }
         });
-    }
+         @FXML
+         Slider zoomSlider;
+         @FXML
+         Label zoomAmount;
+   */
 
-    public void menuManager(ActionEvent e) throws IOException{
+    public void menuBarManager(ActionEvent e) throws IOException {
         String menuName = ((MenuItem) e.getTarget()).getId();
         System.out.println(menuName);
-        refresh();
         if (menuName != null)
             switch (menuName) {
+                //file menus
                 case "newMenu":
-                    TabManagement.openTab(tabs);
+                    newTab();
                     break;
                 case "openMenu":
                     open();
@@ -158,43 +141,47 @@ public class Controller {
                     saveAs();
                     break;
                 case "print":
-                    Utilities.print(getCurrentTextArea());
+                    print();
                     break;
                 case "closeMenu":
                     close();
                     break;
+                case "exitMenu":
+                    exit();
+                    break;
+                //view menus
                 case "toolBarViewOption":
                     toggleToolBar();
                     break;
                 case "utilitiesViewOption":
                     toggleUtilities();
                     break;
-                case "exitMenu":
-                    exit();
-                    break;
             }
-        refresh();
     }
 
     public void refresh() {
-
         currentTab = tabs.getSelectionModel().getSelectedItem();
+        toggleMenus();
+    }
+    public void toggleMenus(){
         if (currentTab == null) {
-
             saveMenu.setDisable(true);
             saveAsMenu.setDisable(true);
             closeMenu.setDisable(true);
-            print.setDisable(true);
+            printMenu.setDisable(true);
         } else {
             saveMenu.setDisable(false);
             saveAsMenu.setDisable(false);
             closeMenu.setDisable(false);
-            print.setDisable(false);
+            printMenu.setDisable(false);
         }
-
     }
 
-    //FILE TAB BUTTONS
+    //FILE MENU CALLS
+    public void newTab() {
+        TabManagement.openTab(tabs);
+    }
+
     public void open() {
         Window stage = mainContainer.getScene().getWindow();
 
@@ -234,7 +221,7 @@ public class Controller {
     }
 
     public void save() throws FileNotFoundException {
-        if (tabs.getTabs().isEmpty()) return;
+        if (currentTab == null) return;
         // write on the same file if currently editing it
         File f = getCurrentPath();
         if (f != null)
@@ -244,7 +231,7 @@ public class Controller {
     }
 
     public void saveAs() throws FileNotFoundException {
-        if (tabs.getTabs().isEmpty()) return;
+        if (currentTab == null) return;
         Window stage = mainContainer.getScene().getWindow();
 
         //choose file destination // filechooser setup
@@ -264,6 +251,10 @@ public class Controller {
         tabs.getTabs().remove(tabs.getSelectionModel().getSelectedItem());
     }
 
+    public void print() {
+        Utilities.print(getCurrentTextArea());
+    }
+
     public void exit() {
         if (!tabs.getTabs().isEmpty()) {
             if (currentTab.getId() == null)
@@ -271,18 +262,16 @@ public class Controller {
             else
                 AlertBox.exitSaveCheck(this, "Exit", "Do you want to save changes to ", currentTab.getId());
         } else
-            closeProgram();
+            Utilities.closeProgram();
     }
 
-    public void closeProgram() {
-        System.exit(0);
-    }
 
-    //EDIT TAB BUTTONS
+    //EDIT MENU CALLS
 
-    //FORMAT TAB BUTTONS
 
-    //VIEW TAB BUTTONS
+    //FORMAT MENU CALLS
+
+    //VIEW MENU CALLS
 
     public void toggleToolBar() {
         if (!toolBarViewOption.isSelected())
@@ -295,8 +284,17 @@ public class Controller {
         if (!utilitiesViewOption.isSelected())
             mainContainer.getChildren().remove(utilitiesBar);
         else
-            mainContainer.getChildren().add(3, utilitiesBar);
+            mainContainer.getChildren().add(mainContainer.getChildren().size() - 1, utilitiesBar);
     }
+
+    //Utilities Bar functions
+    public void wordCounter() {
+        if (currentTab == null)
+            return;
+        int words = Utilities.countWords(getCurrentTextArea().getText());
+        wordCounter.setText(String.valueOf(words));
+    }
+
 
     // FILE DRAG & DROP EVENTS
     @FXML
@@ -351,5 +349,6 @@ public class Controller {
         else
             return new File(check);
     }
+
 
 }

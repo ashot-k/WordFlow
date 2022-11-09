@@ -17,7 +17,7 @@ public class Shortcuts {
         KeyCombination saveShortcut = new KeyCodeCombination(KeyCode.S, KeyCodeCombination.CONTROL_DOWN);
         KeyCombination newTabShortcut = new KeyCodeCombination(KeyCode.T, KeyCodeCombination.CONTROL_DOWN);
         KeyCombination closeShortcut = new KeyCodeCombination(KeyCode.W, KeyCodeCombination.CONTROL_DOWN);
-        KeyCombination openShortcut = new KeyCodeCombination(KeyCode.O, KeyCodeCombination.CONTROL_DOWN);
+        KeyCombination openShortcut = new KeyCodeCombination(KeyCode.N, KeyCodeCombination.CONTROL_DOWN);
 
         HashMap<KeyCombination, String> hotkeyFunctions = new HashMap<>();
         hotkeyFunctions.put(saveShortcut, "save");
@@ -32,12 +32,12 @@ public class Shortcuts {
         shortcutList.add(openShortcut);
 
         scene.setOnKeyPressed(event -> {
-
             for (KeyCombination combination : shortcutList) {
                 if (combination.match(event)) {
                     String function = hotkeyFunctions.get(combination);
                     try {
                         switch (function) {
+                            //shortcuts to file menu
                             case "newTab":
                                 TabManagement.openTab(controller.tabs);
                                 break;
@@ -53,6 +53,8 @@ public class Shortcuts {
                             case "close":
                                 controller.close();
                                 break;
+                                //shortcuts to edit menu
+                            //shortcuts to view menu
                         }
 
                     } catch (FileNotFoundException e) {
@@ -64,27 +66,6 @@ public class Shortcuts {
                     }
                 }
             }
-            /*
-                if (saveShortcut.match(event)) {
-                    try {
-                        controller.save();
-                    } catch (FileNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                } else if (newTabShortcut.match(event)) {
-                    controller.newTab();
-                } else if (closeShortcut.match(event)) {
-
-                    try {
-                        controller.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                } else if (openShortcut.match(event)) {
-                    controller.open();
-                }
-                 */
         });
     }
 

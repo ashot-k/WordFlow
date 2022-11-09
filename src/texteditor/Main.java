@@ -15,17 +15,17 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainInterface.fxml"));
         Parent root = loader.load();
+
         controller = loader.getController();
-        controller.setupEvents(primaryStage);
+        controller.setup(primaryStage);
 
         primaryStage.setTitle("TextEditor");
         primaryStage.setScene(new Scene(root, 650, 500));
 
-
         Shortcuts.onLoad(primaryStage.getScene().getRoot(), primaryStage, controller);
         TabManagement.onLoad(controller);
         primaryStage.show();
-    mainStage = primaryStage;
+        mainStage = primaryStage;
     }
 
     public static void main(String[] args) {

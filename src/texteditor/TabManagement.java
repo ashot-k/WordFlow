@@ -26,13 +26,8 @@ public class TabManagement {
         content.prefWidth(200.0);
         HBox.setHgrow(txt, Priority.SOMETIMES);
 
-        newTab.setOnClosed(event -> {
-            controller.refresh();
-        });
-
         content.getChildren().add(txt);
         newTab.setContent(content);
-
 
         return newTab;
     }
@@ -41,19 +36,17 @@ public class TabManagement {
         Tab newTab = new Tab(name);
         HBox content = new HBox();
         TextArea txt = new TextArea();
+
         content.setAlignment(Pos.CENTER);
         content.prefHeight(200.0);
         content.prefWidth(200.0);
         HBox.setHgrow(txt, Priority.SOMETIMES);
-
-        newTab.setOnClosed(event -> {
-            controller.refresh();
-        });
         newTab.setId(filePath);
 
         content.getChildren().add(txt);
         newTab.setContent(content);
         txt.setText(Utilities.readFile(new File(filePath)));
+
         return newTab;
     }
 
@@ -64,22 +57,12 @@ public class TabManagement {
         tabs.getSelectionModel().select(tab);
         controller.setCurrentTab(tabs.getSelectionModel().getSelectedItem());
     }
-
-    public static void openTab(TabPane tabs, String name, String filePath) {
-        Tab tab = createNewTab(name, filePath);
-        if (!isTabOpen(tabs, tab))
-            tabs.getTabs().add(tab);
-        tabs.getSelectionModel().select(findTab(tabs, tab));
-        controller.setCurrentTab(tabs.getSelectionModel().getSelectedItem());
-    }
-
     public static void openTab(TabPane tabs, Tab tab) {
         if (!isTabOpen(tabs, tab))
             tabs.getTabs().add(tab);
         tabs.getSelectionModel().select(findTab(tabs, tab));
         controller.setCurrentTab(tabs.getSelectionModel().getSelectedItem());
     }
-
     public static boolean isTabOpen(TabPane tabs, Tab tab) {
         for (Tab t : tabs.getTabs()) {
             if (t.getId() != null)
