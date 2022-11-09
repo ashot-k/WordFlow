@@ -1,6 +1,5 @@
 package texteditor;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,7 +15,8 @@ import javafx.stage.Window;
 import java.io.FileNotFoundException;
 
 public class AlertBox {
-    public static Window waitWindow;
+
+
     public static void exitSaveCheck(Controller controller, String title, String message, String file) {
         Stage alertWindow = new Stage();
         //block other windows until popup is closed
@@ -49,10 +49,10 @@ public class AlertBox {
 
         Button noButton = new Button("No");
         noButton.setOnAction(event -> {
-            controller.closeProgram();
+            Utilities.closeProgram();
         });
 
-        VBox layout = new VBox(10);
+        VBox layout = new VBox(5);
         HBox buttons = new HBox(10);
         buttons.setStyle("-fx-background-color:  #E0E0E0;");
         buttons.setAlignment(Pos.CENTER);
@@ -65,7 +65,7 @@ public class AlertBox {
         VBox.setVgrow(labels, Priority.ALWAYS);
 
 
-        Scene scene = new Scene(layout, 400,120);
+        Scene scene = new Scene(layout, 350,120);
 
         alertWindow.setScene(scene);
         alertWindow.showAndWait();
@@ -87,23 +87,6 @@ public class AlertBox {
 
         alertWindow.setScene(new Scene(v, 400, 120));
         alertWindow.showAndWait();
-
     }
-    public static void printing(String title, String message){
-        Stage alertWindow = new Stage();
-        alertWindow.setTitle(title);
-        alertWindow.setResizable(false);
 
-        VBox v = new VBox();
-        Label alertmsg = new Label(message);
-        alertmsg.setTextAlignment(TextAlignment.CENTER);
-        VBox.setVgrow(alertmsg, Priority.ALWAYS);
-
-        v.setAlignment(Pos.CENTER);
-        v.getChildren().add(alertmsg);
-
-        alertWindow.setScene(new Scene(v, 400, 120));
-        waitWindow = alertWindow;
-        ((Stage)waitWindow).show();
-    }
 }
