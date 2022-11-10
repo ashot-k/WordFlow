@@ -68,6 +68,8 @@ public class Controller {
     @FXML
     Label wordCounter;
     @FXML
+    CheckMenuItem fontWrapMenu;
+    @FXML
     TabPane tabs;
 
 
@@ -150,7 +152,7 @@ public class Controller {
                 case "saveAsMenu":
                     saveAs();
                     break;
-                case "print":
+                case "printMenu":
                     print();
                     break;
                 case "closeMenu":
@@ -290,7 +292,6 @@ public class Controller {
             Main.closeProgram();
     }
 
-
     //EDIT MENU CALLS
     public void copy() {
         getCurrentTextArea().copy();
@@ -305,6 +306,17 @@ public class Controller {
     }
 
     //FORMAT MENU CALLS
+    public void fontWrap() {
+        if (tabs.getTabs().isEmpty()) return;
+
+        if (fontWrapMenu.isSelected())
+            for (Tab t : tabs.getTabs())
+                ((TextArea) ((HBox) t.getContent()).getChildren().get(0)).setWrapText(true);
+        else
+            for (Tab t : tabs.getTabs())
+                ((TextArea) ((HBox) t.getContent()).getChildren().get(0)).setWrapText(false);
+    }
+
     public void fontSelection() {
 
         Stage stage = new Stage();
@@ -332,12 +344,10 @@ public class Controller {
         double defaultSize = getCurrentTextArea().getFont().getSize();
 
         Font selectedFont = Font.font(choice, FontWeight.NORMAL, defaultSize);
-
         getCurrentTextArea().setFont(selectedFont);
-
     }
-    //VIEW MENU CALLS
 
+    //VIEW MENU CALLS
     public void toggleToolBar() {
         if (!toolBarViewOption.isSelected())
             mainContainer.getChildren().remove(toolBar);
@@ -352,14 +362,13 @@ public class Controller {
             mainContainer.getChildren().add(mainContainer.getChildren().size() - 1, utilitiesBar);
     }
 
-    //Utilities Bar functions
+    //UTILITIES BAR CALLS
     public void wordCounter() {
         if (currentTab == null)
             return;
         int words = Utilities.countWords(getCurrentTextArea().getText());
         wordCounter.setText(String.valueOf(words));
     }
-
 
     // FILE DRAG & DROP EVENTS
     @FXML

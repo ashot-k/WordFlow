@@ -9,7 +9,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TabPane?>
@@ -28,15 +27,15 @@
 
     <MenuBar fx:id="menuBar">
         <Menu text="File">
-            <MenuItem fx:id="newMenu"  text="New" />
-            <MenuItem fx:id="openMenu"   text="Open..." />
+            <MenuItem fx:id="newMenu" text="New" />
+            <MenuItem fx:id="openMenu" text="Open..." />
             <Menu fx:id="openRecentMenu" text="Open Recent" />
          <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="saveMenu" disable="true" text="Save" />
-            <MenuItem fx:id="saveAsMenu" disable="true"  text="Save As" />
+            <MenuItem fx:id="saveAsMenu" disable="true" text="Save As" />
             <MenuItem fx:id="closeMenu" disable="true" text="Close" />
          <SeparatorMenuItem mnemonicParsing="false" />
-         <MenuItem fx:id="printMenu" disable="true"  text="Print..." />
+         <MenuItem fx:id="printMenu" disable="true" text="Print..." />
          <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="exitMenu" text="Exit" />
         </Menu>
@@ -52,12 +51,12 @@
         <Menu text="Format">
             <items>
                 <MenuItem fx:id="fontMenu" mnemonicParsing="false" text="Font..." />
-            <RadioMenuItem mnemonicParsing="false" text="Word Wrap" />
+            <CheckMenuItem fx:id="fontWrapMenu" mnemonicParsing="false" onAction="#fontWrap" text="Word Wrap" />
             </items>
         </Menu>
         <Menu mnemonicParsing="false" text="View">
             <items>
-                <CheckMenuItem fx:id="toolBarViewOption" mnemonicParsing="false"  selected="true" text="Show Toolbar" />
+                <CheckMenuItem fx:id="toolBarViewOption" mnemonicParsing="false" selected="true" text="Show Toolbar" />
                 <CheckMenuItem fx:id="utilitiesViewOption" mnemonicParsing="false" selected="true" text="Show Utilities" />
             </items>
         </Menu>

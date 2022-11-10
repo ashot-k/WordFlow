@@ -63,7 +63,11 @@ public class Utilities {
         // Show the print setup dialog
         boolean proceed = job.showPrintDialog(primaryStage);
         if (proceed) {
-            boolean printed = job.printPage(new Label(txtArea.getText()));
+            Label l = new Label();
+            l.setFont(txtArea.getFont());
+            l.setWrapText(txtArea.isWrapText());
+            l.setText(txtArea.getText());
+            boolean printed = job.printPage(l);
             if (printed) {
                 job.endJob();
                 System.out.println("printed");
@@ -77,8 +81,5 @@ public class Utilities {
         String[] words = txt.split("\\s+");
         return words.length;
     }
-
-
-
 
 }
