@@ -74,6 +74,7 @@ public class TabManagement {
     public static void openTab(TabPane tabs, Tab tab) {
         if (!isTabOpen(tabs, tab))
             tabs.getTabs().add(tab);
+
         tabs.getSelectionModel().select(findTab(tabs, tab));
         controller.setCurrentTab(tabs.getSelectionModel().getSelectedItem());
     }

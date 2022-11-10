@@ -20,9 +20,17 @@ public class Utilities {
     public static String readFile(File file) {
         StringBuffer textFromFile = new StringBuffer("");
 
+        FileInputStream fstream;
         if (file != null) {
             try {
-                BufferedReader br = new BufferedReader(new FileReader(file));
+                fstream = new FileInputStream(file);
+                DataInputStream in = new DataInputStream(fstream);
+
+                BufferedReader br = new BufferedReader(new BufferedReader(
+                        new InputStreamReader(
+                                new FileInputStream(file), "UTF-8")));
+
+
                 String line = br.readLine();
 
                 while (line != null) {
