@@ -49,7 +49,7 @@ public class AlertBox {
 
         Button noButton = new Button("No");
         noButton.setOnAction(event -> {
-            Utilities.closeProgram();
+            Main.closeProgram();
         });
 
         VBox layout = new VBox(5);

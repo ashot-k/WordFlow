@@ -78,9 +78,7 @@ public class Utilities {
         return words.length;
     }
 
-    public static void closeProgram() {
-        System.exit(0);
-    }
+
 
 
 }

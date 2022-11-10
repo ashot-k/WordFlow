@@ -1,5 +1,7 @@
 package texteditor;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -20,6 +22,12 @@ public class TabManagement {
         Tab newTab = new Tab("Untitled");
         HBox content = new HBox();
         TextArea txt = new TextArea();
+        txt.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                controller.wordCounter();
+            }
+        });
 
         content.setAlignment(Pos.CENTER);
         content.prefHeight(200.0);
@@ -36,6 +44,12 @@ public class TabManagement {
         Tab newTab = new Tab(name);
         HBox content = new HBox();
         TextArea txt = new TextArea();
+        txt.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                controller.wordCounter();
+            }
+        });
 
         content.setAlignment(Pos.CENTER);
         content.prefHeight(200.0);

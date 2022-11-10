@@ -32,5 +32,7 @@ public class Main extends Application {
         System.out.println(System.getProperty("java.version"));
         launch(args);
     }
-
+    public static void closeProgram() {
+        System.exit(0);
+    }
 }

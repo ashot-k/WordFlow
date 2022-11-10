@@ -89,7 +89,6 @@ public class Controller {
             public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
                 System.out.println("changed");
                 refresh();
-                wordCounter();
             }
         });
 
@@ -159,6 +158,15 @@ public class Controller {
                     break;
                 case "exitMenu":
                     exit();
+                    break;
+                case "cutMenu":
+                    cut();
+                    break;
+                case "copyMenu":
+                    copy();
+                    break;
+                case "pasteMenu":
+                    paste();
                     break;
                 //view menus
                 case "toolBarViewOption":
@@ -279,12 +287,22 @@ public class Controller {
             else
                 AlertBox.exitSaveCheck(this, "Exit", "Do you want to save changes to ", currentTab.getId());
         } else
-            Utilities.closeProgram();
+            Main.closeProgram();
     }
 
 
     //EDIT MENU CALLS
+    public void copy() {
+        getCurrentTextArea().copy();
+    }
 
+    public void cut() {
+        getCurrentTextArea().cut();
+    }
+
+    public void paste() {
+        getCurrentTextArea().paste();
+    }
 
     //FORMAT MENU CALLS
     public void fontSelection() {
