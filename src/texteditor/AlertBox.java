@@ -13,10 +13,54 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class AlertBox {
 
 
+    public static void closeTabsCheck(Controller controller, String title, String message, String file){
+        Stage alertWindow = new Stage();
+        //block other windows until popup is closed
+        alertWindow.initModality(Modality.APPLICATION_MODAL);
+        alertWindow.setTitle(title);
+        alertWindow.setResizable(false);
+
+        VBox labels = new VBox(10);
+        labels.setAlignment(Pos.CENTER);
+
+        Label popupText = new Label(message);
+        popupText.setAlignment(Pos.CENTER);
+        labels.getChildren().addAll(popupText);
+
+
+        Button closeButton = new Button("Yes");
+        closeButton.setOnAction(event ->
+                Main.closeProgram()
+        );
+
+        Button noButton = new Button("No");
+        noButton.setOnAction(event -> {
+            alertWindow.close();
+        });
+
+        VBox layout = new VBox(5);
+        HBox buttons = new HBox(10);
+        buttons.setStyle("-fx-background-color:  #E0E0E0;");
+        buttons.setAlignment(Pos.CENTER);
+        buttons.getChildren().addAll(closeButton, noButton);
+
+        layout.getChildren().addAll(labels, buttons);
+        layout.setAlignment(Pos.CENTER);
+
+        VBox.setVgrow(buttons, Priority.ALWAYS);
+        VBox.setVgrow(labels, Priority.ALWAYS);
+
+
+        Scene scene = new Scene(layout, 350,120);
+
+        alertWindow.setScene(scene);
+        alertWindow.showAndWait();
+    }
     public static void exitSaveCheck(Controller controller, String title, String message, String file) {
         Stage alertWindow = new Stage();
         //block other windows until popup is closed

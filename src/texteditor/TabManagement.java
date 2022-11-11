@@ -26,6 +26,7 @@ public class TabManagement {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 controller.wordCounter();
+                newTab.setStyle("-fx-background-color: #91bbff");
             }
         });
 
@@ -48,6 +49,8 @@ public class TabManagement {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 controller.wordCounter();
+
+                newTab.setStyle("-fx-background-color: #91bbff");
             }
         });
 

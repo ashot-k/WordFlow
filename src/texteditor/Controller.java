@@ -207,6 +207,7 @@ public class Controller {
     //FILE MENU CALLS
     public void newTab() {
         TabManagement.openTab(tabs);
+
     }
 
     public void open() {
@@ -217,7 +218,7 @@ public class Controller {
 
         Tab tab = TabManagement.createNewTab(file.getName(), file.getAbsolutePath());
         TabManagement.openTab(tabs, tab);
-
+        tab.setStyle("-fx-base: #EAEAEA");
         addToRecentlyOpened(tab);
     }
 
@@ -251,8 +252,10 @@ public class Controller {
         if (currentTab == null) return;
         // write on the same file if currently editing it
         File f = getCurrentPath();
-        if (f != null)
+        if (f != null) {
             Utilities.writeFile(f, getCurrentTextArea());
+            currentTab.setStyle("-fx-base: #EAEAEA");
+        }
         else
             saveAs();
     }
@@ -272,6 +275,7 @@ public class Controller {
         //update current tab with file path
         if (file != null)
             currentTab.setId(file.getAbsolutePath());
+        currentTab.setStyle("-fx-base: #EAEAEA");
     }
 
     public void close() throws IOException {
@@ -284,10 +288,13 @@ public class Controller {
 
     public void exit() {
         if (!tabs.getTabs().isEmpty()) {
-            if (currentTab.getId() == null)
+            if (tabs.getTabs().size() > 1)
+                AlertBox.closeTabsCheck(this, "Exit", "You have unsaved changes in your tabs\n Are you sure you want to exit?", currentTab.getId());
+            else if (currentTab.getId() == null)
                 AlertBox.exitSaveCheck(this, "Exit", "Do you want to save changes to ", currentTab.getText());
             else
                 AlertBox.exitSaveCheck(this, "Exit", "Do you want to save changes to ", currentTab.getId());
+
         } else
             Main.closeProgram();
     }
@@ -303,6 +310,14 @@ public class Controller {
 
     public void paste() {
         getCurrentTextArea().paste();
+    }
+
+    public void selectAll() {
+        getCurrentTextArea().selectAll();
+    }
+
+    public void delete() {
+        getCurrentTextArea().deleteText(getCurrentTextArea().getSelection());
     }
 
     //FORMAT MENU CALLS
