@@ -157,9 +157,9 @@
         </items>
     </ToolBar>
     <TabPane fx:id="tabs" onDragDropped="#handleFileDroppedEvent" onDragOver="#handleFileOverEvent" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #EEEEEE; -fx-view-order: 1;" VBox.vgrow="ALWAYS" />
-   <ToolBar minHeight="25.0" prefHeight="25.0" style="-fx-background-color: #EEEEEE; -fx-border-color: #b3b3b3;">
+   <ToolBar fx:id="utilBar" minHeight="25.0" prefHeight="25.0" style="-fx-background-color: #EEEEEE; -fx-border-color: #b3b3b3;">
       <items>
-          <GridPane fx:id="utilitiesBar" alignment="CENTER">
+          <GridPane alignment="CENTER">
               <columnConstraints>
                   <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="190.0" />
                <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="190.0" />

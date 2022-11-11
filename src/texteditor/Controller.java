@@ -54,7 +54,7 @@ public class Controller {
     @FXML
     CheckMenuItem toolBarViewOption;
     @FXML
-    GridPane utilitiesBar;
+    GridPane utilBar;
     @FXML
     CheckMenuItem utilitiesViewOption;
     @FXML
@@ -300,9 +300,9 @@ public class Controller {
 
     public void toggleUtilities() {
         if (!utilitiesViewOption.isSelected())
-            mainContainer.getChildren().remove(utilitiesBar);
+            mainContainer.getChildren().remove(utilBar);
         else
-            mainContainer.getChildren().add(mainContainer.getChildren().size() - 1, utilitiesBar);
+            mainContainer.getChildren().add(mainContainer.getChildren().size() - 1, utilBar);
     }
 
     //UTILITIES BAR CALLS
