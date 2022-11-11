@@ -6,9 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
@@ -26,19 +24,14 @@ import javafx.stage.Window;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 public class Controller {
 
     //TODO
-    // -SEARCH MENU
+    // -TOOLBAR
     // -EDIT MENU
     // -SHORTCUTS
-    // -FONT CONFIGURATION
-    // -ZOOM SLIDER FUNCTIONALITY --SCRAPPED
-
     //REFERENCES TO FXML ELEMENTS
     @FXML
     VBox mainContainer;
@@ -52,7 +45,6 @@ public class Controller {
     MenuItem printMenu;
     @FXML
     MenuItem closeMenu;
-
     @FXML
     Menu openRecentMenu;
     @FXML
@@ -72,7 +64,6 @@ public class Controller {
     @FXML
     TabPane tabs;
 
-
     // FILE CHOOSER FOR OPENING AND SAVING FILES
     private FileChooser fileChooser = new FileChooser();
     //REFERENCE TO CURRENT TAB
@@ -89,99 +80,15 @@ public class Controller {
         tabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
             @Override
             public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
-                System.out.println("changed");
+                System.out.println("changed tab");
                 refresh();
             }
         });
-
-        //menus event setup
-        ArrayList<MenuItem> menuItems = new ArrayList<>();
-        //insert all menu items to arraylist
-        for (Object node : menuBar.getMenus()) {
-            if (node instanceof MenuItem)
-                menuItems.add((MenuItem) node);
-            else if (node instanceof Menu) {
-                for (MenuItem m : ((Menu) node).getItems())
-                    menuItems.add(m);
-            }
-        }
-        //add events to each menuItem
-        for (MenuItem menuItem : menuItems) {
-            menuItem.setOnAction(event -> {
-                try {
-                    menuBarManager(event);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-        }
-
         refresh();
     }
 
-    /*
-        zoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
-                zoomAmount.textProperty().setValue(String.valueOf(newValue.intValue()));
-            }
-        });
-         @FXML
-         Slider zoomSlider;
-         @FXML
-         Label zoomAmount;
-   */
 
-    public void menuBarManager(ActionEvent e) throws IOException {
-        String menuName = ((MenuItem) e.getTarget()).getId();
-        System.out.println(menuName);
-        if (menuName != null)
-            switch (menuName) {
-                //file menus
-                case "newMenu":
-                    newTab();
-                    break;
-                case "openMenu":
-                    open();
-                    break;
-                case "openRecentMenu":
-                    break;
-                case "saveMenu":
-                    save();
-                    break;
-                case "saveAsMenu":
-                    saveAs();
-                    break;
-                case "printMenu":
-                    print();
-                    break;
-                case "closeMenu":
-                    close();
-                    break;
-                case "exitMenu":
-                    exit();
-                    break;
-                case "cutMenu":
-                    cut();
-                    break;
-                case "copyMenu":
-                    copy();
-                    break;
-                case "pasteMenu":
-                    paste();
-                    break;
-                //view menus
-                case "toolBarViewOption":
-                    toggleToolBar();
-                    break;
-                case "utilitiesViewOption":
-                    toggleUtilities();
-                    break;
-                case "fontMenu":
-                    fontSelection();
-                    break;
-            }
-    }
+
 
     public void refresh() {
         currentTab = tabs.getSelectionModel().getSelectedItem();
@@ -216,9 +123,9 @@ public class Controller {
         if (file == null) return;
 
         Tab tab = TabManagement.createNewTab(file.getName(), file.getAbsolutePath());
+        tab.setStyle("-fx-base: #EAEAEA");
         TabManagement.openTab(tabs, tab);
 
-        tab.setStyle("-fx-base: #EAEAEA");
         addToRecentlyOpened(tab);
     }
 
@@ -255,8 +162,7 @@ public class Controller {
         if (f != null) {
             Utilities.writeFile(f, getCurrentTextArea());
             currentTab.setStyle("-fx-base: #EAEAEA");
-        }
-        else
+        } else
             saveAs();
     }
 
@@ -302,12 +208,14 @@ public class Controller {
     }
 
     //EDIT MENU CALLS
-    public void undo(){
+    public void undo() {
         getCurrentTextArea().undo();
     }
-    public void redo(){
+
+    public void redo() {
         getCurrentTextArea().redo();
     }
+
     public void copy() {
         getCurrentTextArea().copy();
     }
@@ -339,12 +247,12 @@ public class Controller {
             for (Tab t : tabs.getTabs())
                 ((TextArea) ((HBox) t.getContent()).getChildren().get(0)).setWrapText(false);
     }
-    public boolean fontWrapSelection(){
+
+    public boolean fontWrapSelection() {
         return (fontWrapMenu.isSelected());
     }
 
-    public void fontSelection() {
-
+    public void fontMenu() {
         Stage stage = new Stage();
         stage.setTitle("Font");
         stage.setResizable(false);
@@ -357,7 +265,6 @@ public class Controller {
         fontSelector.getSelectionModel().select("Arial");
 
         ComboBox<String> sizeSelector = new ComboBox<>();
-
         sizeSelector.getItems().addAll("8", "9", "12", "14", "16", "18", "24", "28", "32", "36", "42", "56", "64", "72");
         sizeSelector.setEditable(true);
         sizeSelector.getSelectionModel().select(2);
@@ -381,7 +288,6 @@ public class Controller {
         String sizeChoice = sizeBox.getValue();
 
         Font selectedFont = Font.font(fontChoice, FontWeight.NORMAL, Double.parseDouble(sizeChoice));
-
         getCurrentTextArea().setFont(selectedFont);
     }
 
@@ -436,7 +342,6 @@ public class Controller {
         addToRecentlyOpened(tab);
     }
 
-
     //GETTERS & SETTERS
     public Tab getCurrentTab() {
         return currentTab;
@@ -461,6 +366,4 @@ public class Controller {
         else
             return new File(check);
     }
-
-
 }

@@ -56,7 +56,6 @@ public class Shortcuts {
                                 //shortcuts to edit menu
                             //shortcuts to view menu
                         }
-
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
