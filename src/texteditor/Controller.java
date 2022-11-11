@@ -372,7 +372,6 @@ public class Controller {
         vbox.setAlignment(Pos.CENTER);
         vbox.getChildren().addAll(fontSelector, sizeSelector, confirmButton);
 
-
         stage.setScene(new Scene(vbox, 300, 150));
         stage.showAndWait();
     }
