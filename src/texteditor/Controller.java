@@ -6,9 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
@@ -26,19 +24,14 @@ import javafx.stage.Window;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 public class Controller {
 
     //TODO
-    // -SEARCH MENU
+    // -TOOLBAR
     // -EDIT MENU
     // -SHORTCUTS
-    // -FONT CONFIGURATION
-    // -ZOOM SLIDER FUNCTIONALITY --SCRAPPED
-
     //REFERENCES TO FXML ELEMENTS
     @FXML
     VBox mainContainer;
@@ -52,7 +45,6 @@ public class Controller {
     MenuItem printMenu;
     @FXML
     MenuItem closeMenu;
-
     @FXML
     Menu openRecentMenu;
     @FXML
@@ -72,7 +64,6 @@ public class Controller {
     @FXML
     TabPane tabs;
 
-
     // FILE CHOOSER FOR OPENING AND SAVING FILES
     private FileChooser fileChooser = new FileChooser();
     //REFERENCE TO CURRENT TAB
@@ -89,11 +80,12 @@ public class Controller {
         tabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
             @Override
             public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
-                System.out.println("changed");
+                System.out.println("changed tab");
                 refresh();
             }
         });
 
+/*
         //menus event setup
         ArrayList<MenuItem> menuItems = new ArrayList<>();
         //insert all menu items to arraylist
@@ -115,6 +107,8 @@ public class Controller {
                 }
             });
         }
+
+ */
 
         refresh();
     }
@@ -178,7 +172,7 @@ public class Controller {
                     toggleUtilities();
                     break;
                 case "fontMenu":
-                    fontSelection();
+                    fontMenu();
                     break;
             }
     }
@@ -216,9 +210,9 @@ public class Controller {
         if (file == null) return;
 
         Tab tab = TabManagement.createNewTab(file.getName(), file.getAbsolutePath());
+        tab.setStyle("-fx-base: #EAEAEA");
         TabManagement.openTab(tabs, tab);
 
-        tab.setStyle("-fx-base: #EAEAEA");
         addToRecentlyOpened(tab);
     }
 
@@ -255,8 +249,7 @@ public class Controller {
         if (f != null) {
             Utilities.writeFile(f, getCurrentTextArea());
             currentTab.setStyle("-fx-base: #EAEAEA");
-        }
-        else
+        } else
             saveAs();
     }
 
@@ -302,12 +295,14 @@ public class Controller {
     }
 
     //EDIT MENU CALLS
-    public void undo(){
+    public void undo() {
         getCurrentTextArea().undo();
     }
-    public void redo(){
+
+    public void redo() {
         getCurrentTextArea().redo();
     }
+
     public void copy() {
         getCurrentTextArea().copy();
     }
@@ -339,12 +334,12 @@ public class Controller {
             for (Tab t : tabs.getTabs())
                 ((TextArea) ((HBox) t.getContent()).getChildren().get(0)).setWrapText(false);
     }
-    public boolean fontWrapSelection(){
+
+    public boolean fontWrapSelection() {
         return (fontWrapMenu.isSelected());
     }
 
-    public void fontSelection() {
-
+    public void fontMenu() {
         Stage stage = new Stage();
         stage.setTitle("Font");
         stage.setResizable(false);
@@ -357,7 +352,6 @@ public class Controller {
         fontSelector.getSelectionModel().select("Arial");
 
         ComboBox<String> sizeSelector = new ComboBox<>();
-
         sizeSelector.getItems().addAll("8", "9", "12", "14", "16", "18", "24", "28", "32", "36", "42", "56", "64", "72");
         sizeSelector.setEditable(true);
         sizeSelector.getSelectionModel().select(2);
@@ -381,7 +375,6 @@ public class Controller {
         String sizeChoice = sizeBox.getValue();
 
         Font selectedFont = Font.font(fontChoice, FontWeight.NORMAL, Double.parseDouble(sizeChoice));
-
         getCurrentTextArea().setFont(selectedFont);
     }
 
@@ -436,7 +429,6 @@ public class Controller {
         addToRecentlyOpened(tab);
     }
 
-
     //GETTERS & SETTERS
     public Tab getCurrentTab() {
         return currentTab;
@@ -461,6 +453,4 @@ public class Controller {
         else
             return new File(check);
     }
-
-
 }

@@ -27,17 +27,17 @@
 
     <MenuBar fx:id="menuBar">
         <Menu text="File">
-            <MenuItem fx:id="newMenu" text="New" />
-            <MenuItem fx:id="openMenu" text="Open..." />
+            <MenuItem fx:id="newMenu" onAction="#newTab" text="New" />
+            <MenuItem fx:id="openMenu" onAction="#open" text="Open..." />
             <Menu fx:id="openRecentMenu" text="Open Recent" />
          <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem fx:id="saveMenu" disable="true" text="Save" />
-            <MenuItem fx:id="saveAsMenu" disable="true" text="Save As" />
-            <MenuItem fx:id="closeMenu" disable="true" text="Close" />
+            <MenuItem fx:id="saveMenu" disable="true" onAction="#save" text="Save" />
+            <MenuItem fx:id="saveAsMenu" disable="true" onAction="#saveAs" text="Save As" />
+            <MenuItem fx:id="closeMenu" disable="true" onAction="#close" text="Close" />
          <SeparatorMenuItem mnemonicParsing="false" />
-         <MenuItem fx:id="printMenu" disable="true" text="Print..." />
+         <MenuItem fx:id="printMenu" disable="true" onAction="#print" text="Print..." />
          <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem fx:id="exitMenu" text="Exit" />
+            <MenuItem fx:id="exitMenu" onAction="#exit" text="Exit" />
         </Menu>
         <Menu text="Edit">
          <items>
@@ -53,14 +53,14 @@
          </items></Menu>
         <Menu text="Format">
             <items>
-                <MenuItem fx:id="fontMenu" mnemonicParsing="false" text="Font..." />
+                <MenuItem fx:id="fontMenu" mnemonicParsing="false" onAction="#fontMenu" text="Font..." />
             <CheckMenuItem fx:id="fontWrapMenu" mnemonicParsing="false" onAction="#fontWrap" text="Word Wrap" />
             </items>
         </Menu>
         <Menu mnemonicParsing="false" text="View">
             <items>
-                <CheckMenuItem fx:id="toolBarViewOption" mnemonicParsing="false" selected="true" text="Show Toolbar" />
-                <CheckMenuItem fx:id="utilitiesViewOption" mnemonicParsing="false" selected="true" text="Show Utilities" />
+                <CheckMenuItem fx:id="toolBarViewOption" mnemonicParsing="false" onAction="#toggleToolBar" selected="true" text="Show Toolbar" />
+                <CheckMenuItem fx:id="utilitiesViewOption" mnemonicParsing="false" onAction="#toggleUtilities" selected="true" text="Show Utilities" />
             </items>
         </Menu>
       <opaqueInsets>
@@ -72,12 +72,41 @@
     </MenuBar>
     <ToolBar fx:id="toolBar">
         <items>
-            <Button fx:id="open" mnemonicParsing="false" onAction="#open">
+            <Button mnemonicParsing="false" onAction="#open" text="...">
                 <font>
                     <Font size="10.0" />
                 </font>
+            <graphic>
+               <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../icons/open.png" />
+                  </image>
+                  <viewport>
+                     <Rectangle2D />
+                  </viewport>
+               </ImageView>
+            </graphic>
+            <tooltip>
+               <Tooltip text="Open..." />
+            </tooltip>
             </Button>
-            <Button fx:id="cut" mnemonicParsing="false">
+         <Button mnemonicParsing="false" onAction="#save">
+            <graphic>
+               <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../icons/save.png" />
+                  </image>
+                  <viewport>
+                     <Rectangle2D />
+                  </viewport>
+               </ImageView>
+            </graphic>
+            <tooltip>
+               <Tooltip text="Save" />
+            </tooltip>
+         </Button>
+         <Separator orientation="VERTICAL" />
+            <Button mnemonicParsing="false" onAction="#cut">
                 <font>
                     <Font size="10.0" />
                 </font>
@@ -95,7 +124,7 @@
                <Tooltip text="Cut" />
             </tooltip>
             </Button>
-            <Button fx:id="copyButton" alignment="CENTER" mnemonicParsing="false" text="..." textAlignment="RIGHT">
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#copy" textAlignment="RIGHT">
                 <font>
                     <Font size="10.0" />
                 </font>
@@ -110,7 +139,7 @@
                <Tooltip autoHide="true" text="Copy" textAlignment="CENTER" />
             </tooltip>
             </Button>
-            <Button fx:id="pasteButton" alignment="CENTER" mnemonicParsing="false">
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#paste">
                 <font>
                     <Font size="10.0" />
                 </font>
@@ -125,6 +154,7 @@
                <Tooltip text="Paste" />
             </tooltip>
             </Button>
+         <Separator orientation="VERTICAL" />
         </items>
     </ToolBar>
     <TabPane fx:id="tabs" onDragDropped="#handleFileDroppedEvent" onDragOver="#handleFileOverEvent" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #EEEEEE; -fx-view-order: 1;" VBox.vgrow="ALWAYS" />
