@@ -22,6 +22,8 @@ public class TabManagement {
         Tab newTab = new Tab("Untitled");
         HBox content = new HBox();
         TextArea txt = new TextArea();
+
+        txt.setWrapText(controller.fontWrapSelection());
         txt.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -45,6 +47,7 @@ public class TabManagement {
         Tab newTab = new Tab(name);
         HBox content = new HBox();
         TextArea txt = new TextArea();
+        txt.setWrapText(controller.fontWrapSelection());
         txt.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {

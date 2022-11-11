@@ -207,7 +207,6 @@ public class Controller {
     //FILE MENU CALLS
     public void newTab() {
         TabManagement.openTab(tabs);
-
     }
 
     public void open() {
@@ -218,6 +217,7 @@ public class Controller {
 
         Tab tab = TabManagement.createNewTab(file.getName(), file.getAbsolutePath());
         TabManagement.openTab(tabs, tab);
+
         tab.setStyle("-fx-base: #EAEAEA");
         addToRecentlyOpened(tab);
     }
@@ -266,7 +266,10 @@ public class Controller {
 
         //choose file destination // filechooser setup
         File f = getCurrentPath();
-        if (f != null) fileChooser.setInitialFileName(f.getName());
+        if (f != null) {
+            fileChooser.setInitialFileName(f.getName());
+            fileChooser.setInitialDirectory(f.getParentFile());
+        }
         File file = Utilities.saveFile(fileChooser, (Stage) stage);
 
         //try to create text file at destination
@@ -294,7 +297,6 @@ public class Controller {
                 AlertBox.exitSaveCheck(this, "Exit", "Do you want to save changes to ", currentTab.getText());
             else
                 AlertBox.exitSaveCheck(this, "Exit", "Do you want to save changes to ", currentTab.getId());
-
         } else
             Main.closeProgram();
     }
@@ -337,11 +339,15 @@ public class Controller {
             for (Tab t : tabs.getTabs())
                 ((TextArea) ((HBox) t.getContent()).getChildren().get(0)).setWrapText(false);
     }
+    public boolean fontWrapSelection(){
+        return (fontWrapMenu.isSelected());
+    }
 
     public void fontSelection() {
 
         Stage stage = new Stage();
         stage.setTitle("Font");
+        stage.setResizable(false);
 
         List<String> families = Font.getFamilies();
         ObservableList<String> fontList = FXCollections.observableList(families);
@@ -350,21 +356,33 @@ public class Controller {
         fontSelector.getItems().addAll(fontList);
         fontSelector.getSelectionModel().select("Arial");
 
+        ComboBox<String> sizeSelector = new ComboBox<>();
+
+        sizeSelector.getItems().addAll("8", "9", "12", "14", "16", "18", "24", "28", "32", "36", "42", "56", "64", "72");
+        sizeSelector.setEditable(true);
+        sizeSelector.getSelectionModel().select(2);
+
+        Button confirmButton = new Button("Ok");
+        confirmButton.setOnAction(event -> {
+            getFontChoice(fontSelector, sizeSelector);
+            stage.close();
+        });
+
         VBox vbox = new VBox(20);
         vbox.setAlignment(Pos.CENTER);
-        vbox.getChildren().add(fontSelector);
+        vbox.getChildren().addAll(fontSelector, sizeSelector, confirmButton);
 
-        stage.setScene(new Scene(vbox, 300, 100));
-        stage.show();
 
-        fontSelector.setOnAction(event -> getChoice(fontSelector));
+        stage.setScene(new Scene(vbox, 300, 150));
+        stage.showAndWait();
     }
 
-    private void getChoice(ComboBox<String> comboBox) {
-        String choice = comboBox.getValue();
-        double defaultSize = getCurrentTextArea().getFont().getSize();
+    private void getFontChoice(ComboBox<String> fontBox, ComboBox<String> sizeBox) {
+        String fontChoice = fontBox.getValue();
+        String sizeChoice = sizeBox.getValue();
 
-        Font selectedFont = Font.font(choice, FontWeight.NORMAL, defaultSize);
+        Font selectedFont = Font.font(fontChoice, FontWeight.NORMAL, Double.parseDouble(sizeChoice));
+
         getCurrentTextArea().setFont(selectedFont);
     }
 
