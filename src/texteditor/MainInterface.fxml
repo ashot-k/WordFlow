@@ -158,31 +158,35 @@
         </items>
     </ToolBar>
     <TabPane fx:id="tabs" onDragDropped="#handleFileDroppedEvent" onDragOver="#handleFileOverEvent" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #EEEEEE; -fx-view-order: 1;" VBox.vgrow="ALWAYS" />
-   <Separator maxHeight="1.0" minHeight="1.0" prefWidth="200.0" />
-    <GridPane fx:id="utilitiesBar" alignment="CENTER" style="-fx-background-color: #E0E0E0;">
-        <columnConstraints>
-            <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="190.0" />
-         <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="190.0" />
-         <ColumnConstraints fillWidth="false" halignment="RIGHT" hgrow="ALWAYS" />
-            <ColumnConstraints halignment="RIGHT" hgrow="NEVER" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="0.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints minHeight="20.0" valignment="CENTER" vgrow="ALWAYS" />
-        </rowConstraints>
-      <children>
-         <Label alignment="CENTER" text="Word Count :">
-            <padding>
-               <Insets left="5.0" />
-            </padding>
-         </Label>
-         <Label fx:id="wordCounter" text="0" GridPane.columnIndex="1">
-            <padding>
-               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-            </padding>
-         </Label>
-      </children>
-    </GridPane>
+   <Separator maxHeight="1.0" prefWidth="200.0" />
+   <ToolBar style="-fx-background-color: #EEEEEE;">
+      <items>
+          <GridPane fx:id="utilitiesBar" alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="190.0" />
+               <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="190.0" />
+               <ColumnConstraints fillWidth="false" halignment="RIGHT" hgrow="ALWAYS" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="NEVER" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="0.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="20.0" valignment="CENTER" vgrow="ALWAYS" />
+              </rowConstraints>
+            <children>
+               <Label alignment="CENTER" text="Word Count :">
+                  <padding>
+                     <Insets left="5.0" />
+                  </padding>
+               </Label>
+               <Label fx:id="wordCounter" text="0" GridPane.columnIndex="1">
+                  <padding>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </padding>
+               </Label>
+            </children>
+          </GridPane>
+      </items>
+   </ToolBar>
    <Separator maxHeight="1.0" minHeight="1.0" prefHeight="1.0" prefWidth="200.0" />
    <BorderPane maxHeight="27.0" minHeight="27.0" prefHeight="27.0" style="-fx-background-color: #E0E0E0;">
       <right>
