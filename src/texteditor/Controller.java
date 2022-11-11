@@ -4,7 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -29,9 +27,8 @@ import java.util.List;
 public class Controller {
 
     //TODO
-    // -TOOLBAR
-    // -EDIT MENU
     // -SHORTCUTS
+
     //REFERENCES TO FXML ELEMENTS
     @FXML
     VBox mainContainer;
@@ -91,6 +88,7 @@ public class Controller {
 
     public void refresh() {
         currentTab = tabs.getSelectionModel().getSelectedItem();
+        if(currentTab != null) textCounters();
         toggleMenus();
     }
 
@@ -197,7 +195,7 @@ public class Controller {
     public void exit() {
         if (!tabs.getTabs().isEmpty()) {
             if (tabs.getTabs().size() > 1)
-                AlertBox.closeTabsCheck(this, "Exit", "You have unsaved changes in your tabs\n Are you sure you want to exit?", currentTab.getId());
+                AlertBox.closeTabsCheck(this, "Exit", "You may have unsaved changes in your tabs.\nAre you sure you want to exit?", null);
             else if (currentTab.getId() == null)
                 AlertBox.exitSaveCheck(this, "Exit", "Do you want to save changes to ", currentTab.getText());
             else
@@ -306,14 +304,13 @@ public class Controller {
     }
 
     //UTILITIES BAR CALLS
-    public void wordCounter() {
+    public void textCounters() {
         if (currentTab == null)
             return;
         int words = Utilities.countWords(getCurrentTextArea().getText());
         int lines = Utilities.countLines(getCurrentTextArea().getText());
         wordCounter.setText(String.valueOf(words));
         lineCounter.setText(String.valueOf(lines));
-
     }
 
     // FILE DRAG & DROP EVENTS
@@ -341,7 +338,10 @@ public class Controller {
         System.out.println("Dropped file: " + file.getAbsolutePath());
         Tab tab = TabManagement.createNewTab(file.getName(), file.getAbsolutePath());
         TabManagement.openTab(tabs, tab);
+
+        currentTab.setStyle("-fx-base: #EAEAEA");
         addToRecentlyOpened(tab);
+
     }
 
     //GETTERS & SETTERS

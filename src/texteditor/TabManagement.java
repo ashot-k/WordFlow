@@ -27,7 +27,7 @@ public class TabManagement {
         txt.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                controller.wordCounter();
+                controller.textCounters();
                 newTab.setStyle("-fx-background-color: #91bbff");
             }
         });
@@ -51,7 +51,7 @@ public class TabManagement {
         txt.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                controller.wordCounter();
+                controller.textCounters();
 
                 newTab.setStyle("-fx-background-color: #91bbff");
             }
