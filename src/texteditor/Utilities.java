@@ -89,5 +89,11 @@ public class Utilities {
         String[] words = txt.split("\\s+");
         return words.length;
     }
+    public static int countLines(String txt){
+        if(txt == null || txt.isEmpty())
+        return 0;
+        String [] words = txt.split("\n");
+        return words.length;
+    }
 
 }

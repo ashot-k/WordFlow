@@ -60,6 +60,8 @@ public class Controller {
     @FXML
     Label wordCounter;
     @FXML
+    Label lineCounter;
+    @FXML
     CheckMenuItem fontWrapMenu;
     @FXML
     TabPane tabs;
@@ -86,9 +88,6 @@ public class Controller {
         });
         refresh();
     }
-
-
-
 
     public void refresh() {
         currentTab = tabs.getSelectionModel().getSelectedItem();
@@ -311,7 +310,10 @@ public class Controller {
         if (currentTab == null)
             return;
         int words = Utilities.countWords(getCurrentTextArea().getText());
+        int lines = Utilities.countLines(getCurrentTextArea().getText());
         wordCounter.setText(String.valueOf(words));
+        lineCounter.setText(String.valueOf(lines));
+
     }
 
     // FILE DRAG & DROP EVENTS
