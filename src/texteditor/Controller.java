@@ -12,13 +12,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -79,13 +77,12 @@ public class Controller {
 
     @FXML
     public  void replaceWindow()throws  IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("ReplaceTab.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ReplaceWindow.fxml"));
         Parent root = loader.load();
-        TextArea textArea = getCurrentTextArea();
 
         Stage stage = new Stage();
         stage.setTitle("Replace");
-        stage.setScene(new Scene(root,300,200));
+        stage.setScene(new Scene(root,600,200));
 
 
        /* replaceButton.setOnAction(event -> {
@@ -118,7 +115,7 @@ public class Controller {
     // FILE CHOOSER FOR OPENING AND SAVING FILES
     private FileChooser fileChooser = new FileChooser();
     //REFERENCE TO CURRENT TAB
-    private Tab currentTab;
+    private static Tab currentTab;
 
     public void setup(Stage primaryStage) {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
@@ -131,7 +128,6 @@ public class Controller {
         tabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
             @Override
             public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
-                System.out.println("changed tab");
                 refresh();
             }
         });
