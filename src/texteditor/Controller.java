@@ -84,98 +84,11 @@ public class Controller {
                 refresh();
             }
         });
-
-/*
-        //menus event setup
-        ArrayList<MenuItem> menuItems = new ArrayList<>();
-        //insert all menu items to arraylist
-        for (Object node : menuBar.getMenus()) {
-            if (node instanceof MenuItem)
-                menuItems.add((MenuItem) node);
-            else if (node instanceof Menu) {
-                for (MenuItem m : ((Menu) node).getItems())
-                    menuItems.add(m);
-            }
-        }
-        //add events to each menuItem
-        for (MenuItem menuItem : menuItems) {
-            menuItem.setOnAction(event -> {
-                try {
-                    menuBarManager(event);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-        }
-
- */
-
         refresh();
     }
 
-    /*
-        zoomSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
-                zoomAmount.textProperty().setValue(String.valueOf(newValue.intValue()));
-            }
-        });
-         @FXML
-         Slider zoomSlider;
-         @FXML
-         Label zoomAmount;
-   */
 
-    public void menuBarManager(ActionEvent e) throws IOException {
-        String menuName = ((MenuItem) e.getTarget()).getId();
-        System.out.println(menuName);
-        if (menuName != null)
-            switch (menuName) {
-                //file menus
-                case "newMenu":
-                    newTab();
-                    break;
-                case "openMenu":
-                    open();
-                    break;
-                case "openRecentMenu":
-                    break;
-                case "saveMenu":
-                    save();
-                    break;
-                case "saveAsMenu":
-                    saveAs();
-                    break;
-                case "printMenu":
-                    print();
-                    break;
-                case "closeMenu":
-                    close();
-                    break;
-                case "exitMenu":
-                    exit();
-                    break;
-                case "cutMenu":
-                    cut();
-                    break;
-                case "copyMenu":
-                    copy();
-                    break;
-                case "pasteMenu":
-                    paste();
-                    break;
-                //view menus
-                case "toolBarViewOption":
-                    toggleToolBar();
-                    break;
-                case "utilitiesViewOption":
-                    toggleUtilities();
-                    break;
-                case "fontMenu":
-                    fontMenu();
-                    break;
-            }
-    }
+
 
     public void refresh() {
         currentTab = tabs.getSelectionModel().getSelectedItem();
