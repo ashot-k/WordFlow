@@ -56,7 +56,7 @@ public class AlertBox {
         VBox.setVgrow(labels, Priority.ALWAYS);
 
 
-        Scene scene = new Scene(layout, 350,120);
+        Scene scene = new Scene(layout, 350,100);
 
         alertWindow.setScene(scene);
         alertWindow.showAndWait();
