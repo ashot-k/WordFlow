@@ -300,6 +300,12 @@ public class Controller {
     }
 
     //EDIT MENU CALLS
+    public void undo(){
+        getCurrentTextArea().undo();
+    }
+    public void redo(){
+        getCurrentTextArea().redo();
+    }
     public void copy() {
         getCurrentTextArea().copy();
     }

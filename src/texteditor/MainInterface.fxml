@@ -41,6 +41,9 @@
         </Menu>
         <Menu text="Edit">
          <items>
+            <MenuItem fx:id="undoMenu" mnemonicParsing="false" onAction="#undo" text="Undo" />
+            <MenuItem fx:id="redoMenu" mnemonicParsing="false" onAction="#redo" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="cutMenu" mnemonicParsing="false" text="Cut" />
             <MenuItem fx:id="copyMenu" mnemonicParsing="false" text="Copy" />
             <MenuItem fx:id="pasteMenu" mnemonicParsing="false" text="Paste" />
