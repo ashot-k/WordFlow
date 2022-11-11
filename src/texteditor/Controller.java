@@ -5,16 +5,20 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -63,6 +67,54 @@ public class Controller {
     @FXML
     TabPane tabs;
 
+    @FXML
+    TextField newWord;
+
+    @FXML
+    TextField oldWord;
+
+    @FXML
+    Button replaceButton;
+
+
+    @FXML
+    public  void replaceWindow()throws  IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ReplaceTab.fxml"));
+        Parent root = loader.load();
+        TextArea textArea = getCurrentTextArea();
+
+        Stage stage = new Stage();
+        stage.setTitle("Replace");
+        stage.setScene(new Scene(root,300,200));
+
+
+       /* replaceButton.setOnAction(event -> {
+             replace(textArea);
+            stage.close();
+        });*/
+
+        stage.show();
+
+    }
+
+    public void  replace(){
+        String oldW = oldWord.getText();
+        String newW = newWord.getText();
+        String replacedWordString = getCurrentTextArea().getText().replace(oldW,newW);
+
+        getCurrentTextArea().setText(replacedWordString);
+
+    }
+
+   /* public void  replace(TextArea currentTextArea){
+        String oldW = oldWord.getText();
+        String newW = newWord.getText();
+        String replacedWordString = currentTextArea.getText().replace(oldW,newW);
+        System.out.println(replacedWordString);
+        currentTextArea.setText(replacedWordString);
+
+    }
+*/
     // FILE CHOOSER FOR OPENING AND SAVING FILES
     private FileChooser fileChooser = new FileChooser();
     //REFERENCE TO CURRENT TAB
@@ -286,6 +338,14 @@ public class Controller {
 
         Font selectedFont = Font.font(fontChoice, FontWeight.NORMAL, Double.parseDouble(sizeChoice));
         getCurrentTextArea().setFont(selectedFont);
+    }
+
+
+
+    private  void replace(String findtext,String currentText,String replacetext){
+
+
+
     }
 
     //VIEW MENU CALLS
