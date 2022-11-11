@@ -54,7 +54,7 @@ public class Controller {
     @FXML
     CheckMenuItem toolBarViewOption;
     @FXML
-    GridPane utilBar;
+    ToolBar utilBar;
     @FXML
     CheckMenuItem utilitiesViewOption;
     @FXML
