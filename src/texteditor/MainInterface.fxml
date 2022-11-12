@@ -26,30 +26,30 @@
 
     <MenuBar fx:id="menuBar">
         <Menu text="File">
-            <MenuItem fx:id="newMenu" onAction="#newTab" text="New" />
-            <MenuItem fx:id="openMenu" onAction="#open" text="Open..." />
+            <MenuItem fx:id="newMenu" onAction="#newTab" text="New" accelerator="Ctrl+T" />
+            <MenuItem fx:id="openMenu" onAction="#open" text="Open..." accelerator="Ctrl+O" />
             <Menu fx:id="openRecentMenu" text="Open Recent" />
          <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem fx:id="saveMenu" disable="true" onAction="#save" text="Save" />
-            <MenuItem fx:id="saveAsMenu" disable="true" onAction="#saveAs" text="Save As" />
-            <MenuItem fx:id="closeMenu" disable="true" onAction="#close" text="Close" />
+            <MenuItem fx:id="saveMenu" disable="true" onAction="#save" text="Save" accelerator="Ctrl+S" />
+            <MenuItem fx:id="saveAsMenu" disable="true" onAction="#saveAs" text="Save As" accelerator="Ctrl+Shift+S" />
+            <MenuItem fx:id="closeMenu" disable="true" onAction="#close" text="Close" accelerator="Ctrl+W" />
          <SeparatorMenuItem mnemonicParsing="false" />
-         <MenuItem fx:id="printMenu" disable="true" onAction="#print" text="Print..." />
+         <MenuItem fx:id="printMenu" disable="true" onAction="#print" text="Print..." accelerator="Ctrl+P" />
          <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="exitMenu" onAction="#exit" text="Exit" />
         </Menu>
         <Menu text="Edit">
          <items>
-            <MenuItem fx:id="undoMenu" mnemonicParsing="false" onAction="#undo" text="Undo" />
-            <MenuItem fx:id="redoMenu" mnemonicParsing="false" onAction="#redo" text="Redo" />
+            <MenuItem fx:id="undoMenu" mnemonicParsing="false" onAction="#undo" text="Undo" accelerator="Ctrl+Z" />
+            <MenuItem fx:id="redoMenu" mnemonicParsing="false" onAction="#redo" text="Redo" accelerator="Ctrl+Y" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem fx:id="cutMenu" mnemonicParsing="false" text="Cut" />
-            <MenuItem fx:id="copyMenu" mnemonicParsing="false" text="Copy" />
-            <MenuItem fx:id="pasteMenu" mnemonicParsing="false" text="Paste" />
-            <MenuItem fx:id="deleteMenu" mnemonicParsing="false" onAction="#delete" text="Delete" />
-            <MenuItem mnemonicParsing="false" onAction="#replaceWindow" text="Replace" />
+            <MenuItem fx:id="cutMenu" mnemonicParsing="false" text="Cut" accelerator="Ctrl+X" />
+            <MenuItem fx:id="copyMenu" mnemonicParsing="false" text="Copy" accelerator="Ctrl+C" />
+            <MenuItem fx:id="pasteMenu" mnemonicParsing="false" text="Paste" accelerator="Ctrl+P"/>
+            <MenuItem fx:id="deleteMenu" mnemonicParsing="false" onAction="#delete" text="Delete" accelerator="Del" />
+            <MenuItem fx:id="replaceMenu" mnemonicParsing="false" onAction="#replaceWindow" text="Replace" accelerator="Ctrl+H" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem fx:id="selectAllMenu" mnemonicParsing="false" onAction="#selectAll" text="Select All" />
+            <MenuItem fx:id="selectAllMenu" mnemonicParsing="false" onAction="#selectAll" text="Select All" accelerator="Ctrl+A"/>
          </items></Menu>
         <Menu text="Format">
             <items>

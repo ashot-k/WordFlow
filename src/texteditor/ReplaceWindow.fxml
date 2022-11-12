@@ -6,20 +6,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="90.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="texteditor.Controller">
+<AnchorPane prefHeight="130.0" prefWidth="354.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="texteditor.Controller">
    <children>
       <TextField fx:id="oldWord" layoutX="39.0" layoutY="36.0" />
-      <TextField fx:id="newWord" layoutX="365.0" layoutY="36.0" />
+      <TextField fx:id="newWord" layoutX="39.0" layoutY="87.0" />
       <Label layoutX="80.0" layoutY="14.0" text="Old word">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label layoutX="402.0" layoutY="14.0" text="New word">
+      <Label layoutX="76.0" layoutY="65.0" text="New word">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Button fx:id="replaceButton" layoutX="267.0" layoutY="36.0" mnemonicParsing="false"  prefHeight="25.0" prefWidth="67.0" text="Replace" onAction="#replace" />
+      <Button fx:id="replaceButton" layoutX="267.0" layoutY="36.0" mnemonicParsing="false" onAction="#replace" prefHeight="25.0" prefWidth="67.0" text="Replace" />
+      <Button fx:id="search" layoutX="267.0" layoutY="75.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="Find next" onAction="#searchWord" />
    </children>
 </AnchorPane>

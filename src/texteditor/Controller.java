@@ -64,6 +64,8 @@ public class Controller {
     CheckMenuItem fontWrapMenu;
     @FXML
     TabPane tabs;
+    @FXML
+    MenuItem replaceMenu;
 
     @FXML
     TextField newWord;
@@ -100,6 +102,19 @@ public class Controller {
         String replacedWordString = getCurrentTextArea().getText().replace(oldW,newW);
 
         getCurrentTextArea().setText(replacedWordString);
+
+    }
+    public void searchWord(){
+        String oldW = oldWord.getText();
+
+        int index = getCurrentTextArea().getText().indexOf(oldWord.getText());
+        if (index == -1) {
+
+        } else {
+            getCurrentTextArea().selectRange(oldWord.getText().charAt(0), oldWord.getLength());
+
+        }
+
 
     }
 
@@ -147,12 +162,14 @@ public class Controller {
             closeMenu.setDisable(true);
             printMenu.setDisable(true);
             fontMenu.setDisable(true);
+            replaceMenu.setDisable(true);
         } else {
             saveMenu.setDisable(false);
             saveAsMenu.setDisable(false);
             closeMenu.setDisable(false);
             printMenu.setDisable(false);
             fontMenu.setDisable(false);
+            replaceMenu.setDisable(false);
         }
     }
 
@@ -337,12 +354,6 @@ public class Controller {
     }
 
 
-
-    private  void replace(String findtext,String currentText,String replacetext){
-
-
-
-    }
 
     //VIEW MENU CALLS
     public void toggleToolBar() {
