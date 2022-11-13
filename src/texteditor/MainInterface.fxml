@@ -19,37 +19,38 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="mainContainer" alignment="CENTER" prefWidth="450.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="texteditor.Controller">
+<VBox fx:id="mainContainer" alignment="CENTER" prefWidth="450.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="texteditor.Controller">
 
     <MenuBar fx:id="menuBar">
         <Menu text="File">
-            <MenuItem fx:id="newMenu" onAction="#newTab" text="New" accelerator="Ctrl+T" />
-            <MenuItem fx:id="openMenu" onAction="#open" text="Open..." accelerator="Ctrl+O" />
+            <MenuItem fx:id="newMenu" accelerator="Ctrl+T" onAction="#newTab" text="New" />
+            <MenuItem fx:id="openMenu" accelerator="Ctrl+O" onAction="#open" text="Open..." />
             <Menu fx:id="openRecentMenu" text="Open Recent" />
          <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem fx:id="saveMenu" disable="true" onAction="#save" text="Save" accelerator="Ctrl+S" />
-            <MenuItem fx:id="saveAsMenu" disable="true" onAction="#saveAs" text="Save As" accelerator="Ctrl+Shift+S" />
-            <MenuItem fx:id="closeMenu" disable="true" onAction="#close" text="Close" accelerator="Ctrl+W" />
+            <MenuItem fx:id="saveMenu" accelerator="Ctrl+S" disable="true" onAction="#save" text="Save" />
+            <MenuItem fx:id="saveAsMenu" accelerator="Ctrl+Shift+S" disable="true" onAction="#saveAs" text="Save As" />
+            <MenuItem fx:id="closeMenu" accelerator="Ctrl+W" disable="true" onAction="#close" text="Close" />
          <SeparatorMenuItem mnemonicParsing="false" />
-         <MenuItem fx:id="printMenu" disable="true" onAction="#print" text="Print..." accelerator="Ctrl+P" />
+         <MenuItem fx:id="printMenu" accelerator="Ctrl+P" disable="true" onAction="#print" text="Print..." />
          <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="exitMenu" onAction="#exit" text="Exit" />
         </Menu>
         <Menu text="Edit">
          <items>
-            <MenuItem fx:id="undoMenu" mnemonicParsing="false" onAction="#undo" text="Undo" accelerator="Ctrl+Z" />
-            <MenuItem fx:id="redoMenu" mnemonicParsing="false" onAction="#redo" text="Redo" accelerator="Ctrl+Y" />
+            <MenuItem fx:id="undoMenu" accelerator="Ctrl+Z" mnemonicParsing="false" onAction="#undo" text="Undo" />
+            <MenuItem fx:id="redoMenu" accelerator="Ctrl+Y" mnemonicParsing="false" onAction="#redo" text="Redo" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem fx:id="cutMenu" mnemonicParsing="false" text="Cut" accelerator="Ctrl+X" />
-            <MenuItem fx:id="copyMenu" mnemonicParsing="false" text="Copy" accelerator="Ctrl+C" />
-            <MenuItem fx:id="pasteMenu" mnemonicParsing="false" text="Paste" accelerator="Ctrl+P"/>
-            <MenuItem fx:id="deleteMenu" mnemonicParsing="false" onAction="#delete" text="Delete" accelerator="Del" />
-            <MenuItem fx:id="replaceMenu" mnemonicParsing="false" onAction="#replaceWindow" text="Replace" accelerator="Ctrl+H" />
+            <MenuItem fx:id="cutMenu" accelerator="Ctrl+X" mnemonicParsing="false" text="Cut" />
+            <MenuItem fx:id="copyMenu" accelerator="Ctrl+C" mnemonicParsing="false" text="Copy" />
+            <MenuItem fx:id="pasteMenu" accelerator="Ctrl+P" mnemonicParsing="false" text="Paste" />
+            <MenuItem fx:id="deleteMenu" accelerator="Del" mnemonicParsing="false" onAction="#delete" text="Delete" />
+            <MenuItem fx:id="replaceMenu" accelerator="Ctrl+H" mnemonicParsing="false" onAction="#replaceWindow" text="Replace" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem fx:id="selectAllMenu" mnemonicParsing="false" onAction="#selectAll" text="Select All" accelerator="Ctrl+A"/>
+            <MenuItem fx:id="selectAllMenu" accelerator="Ctrl+A" mnemonicParsing="false" onAction="#selectAll" text="Select All" />
          </items></Menu>
         <Menu text="Format">
             <items>
@@ -157,7 +158,16 @@
          <Separator orientation="VERTICAL" />
         </items>
     </ToolBar>
-    <TabPane fx:id="tabs" onDragDropped="#handleFileDroppedEvent" onDragOver="#handleFileOverEvent" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #EEEEEE; -fx-view-order: 1;" VBox.vgrow="ALWAYS" />
+   <StackPane prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+      <children>
+          <TabPane fx:id="tabs" onDragDropped="#handleFileDroppedEvent" onDragOver="#handleFileOverEvent" onMouseClicked="#openFromTabs" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff; -fx-view-order: 1;" styleClass="tabs" StackPane.alignment="CENTER" />
+         <ImageView fx:id="backgroundImage" fitHeight="180.0" fitWidth="220.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true" style="-fx-view-order: 3;">
+            <image>
+               <Image url="@../icons/background_image.png" />
+            </image>
+         </ImageView>
+      </children>
+   </StackPane>
    <ToolBar fx:id="utilBar" minHeight="25.0" prefHeight="25.0" style="-fx-background-color: #EEEEEE; -fx-border-color: #b3b3b3;">
       <items>
           <GridPane alignment="CENTER">

@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -65,6 +66,8 @@ public class Controller {
     @FXML
     TabPane tabs;
     @FXML
+    ImageView backgroundImage;
+    @FXML
     MenuItem replaceMenu;
 
     @FXML
@@ -75,6 +78,7 @@ public class Controller {
 
     @FXML
     Button replaceButton;
+
 
 
     @FXML
@@ -157,6 +161,7 @@ public class Controller {
 
     public void toggleMenus() {
         if (currentTab == null) {
+            backgroundImage.setVisible(true);
             saveMenu.setDisable(true);
             saveAsMenu.setDisable(true);
             closeMenu.setDisable(true);
@@ -164,6 +169,7 @@ public class Controller {
             fontMenu.setDisable(true);
             replaceMenu.setDisable(true);
         } else {
+            backgroundImage.setVisible(false);
             saveMenu.setDisable(false);
             saveAsMenu.setDisable(false);
             closeMenu.setDisable(false);
@@ -189,6 +195,9 @@ public class Controller {
         TabManagement.openTab(tabs, tab);
 
         addToRecentlyOpened(tab);
+    }
+    public void openFromTabs(){
+        if(tabs.getTabs().isEmpty()) open();
     }
 
     public void addToRecentlyOpened(Tab tab) {
@@ -239,10 +248,8 @@ public class Controller {
             fileChooser.setInitialDirectory(f.getParentFile());
         }
         File file = Utilities.saveFile(fileChooser, (Stage) stage);
-
         //try to create text file at destination
         Utilities.writeFile(file, getCurrentTextArea());
-
         //update current tab with file path
         if (file != null)
             currentTab.setId(file.getAbsolutePath());
