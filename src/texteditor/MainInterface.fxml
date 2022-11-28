@@ -27,7 +27,7 @@
 
     <MenuBar fx:id="menuBar">
         <Menu text="File">
-            <MenuItem fx:id="newMenu" accelerator="Ctrl+T" onAction="#newTab" text="New" />
+            <MenuItem fx:id="newMenu" accelerator="Ctrl+N" onAction="#newTab" text="New" />
             <MenuItem fx:id="openMenu" accelerator="Ctrl+O" onAction="#open" text="Open..." />
             <Menu fx:id="openRecentMenu" text="Open Recent" />
          <SeparatorMenuItem mnemonicParsing="false" />
@@ -46,7 +46,7 @@
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="cutMenu" accelerator="Ctrl+X" mnemonicParsing="false" text="Cut" />
             <MenuItem fx:id="copyMenu" accelerator="Ctrl+C" mnemonicParsing="false" text="Copy" />
-            <MenuItem fx:id="pasteMenu" accelerator="Ctrl+P" mnemonicParsing="false" text="Paste" />
+            <MenuItem fx:id="pasteMenu" accelerator="Ctrl+V" mnemonicParsing="false" text="Paste" />
             <MenuItem fx:id="deleteMenu" accelerator="Del" mnemonicParsing="false" onAction="#delete" text="Delete" />
             <MenuItem fx:id="replaceMenu" accelerator="Ctrl+H" mnemonicParsing="false" onAction="#replaceWindow" text="Replace" />
             <SeparatorMenuItem mnemonicParsing="false" />
