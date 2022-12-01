@@ -48,7 +48,7 @@
             <MenuItem fx:id="copyMenu" accelerator="Ctrl+C" mnemonicParsing="false" text="Copy" />
             <MenuItem fx:id="pasteMenu" accelerator="Ctrl+V" mnemonicParsing="false" text="Paste" />
             <MenuItem fx:id="deleteMenu" accelerator="Del" mnemonicParsing="false" onAction="#delete" text="Delete" />
-            <MenuItem fx:id="replaceMenu" accelerator="Ctrl+H" mnemonicParsing="false" onAction="#replaceWindow" text="Replace" />
+            <MenuItem fx:id="findMenu" accelerator="Ctrl+H" mnemonicParsing="false" onAction="#findWindow" text="Find and Replace" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="selectAllMenu" accelerator="Ctrl+A" mnemonicParsing="false" onAction="#selectAll" text="Select All" />
          </items></Menu>

@@ -21,7 +21,7 @@ public class Main extends Application {
         TabManagement.onLoad(controller);
 
         primaryStage.setTitle("TextEditor");
-        primaryStage.setScene(new Scene(root, 650, 500));
+        primaryStage.setScene(new Scene(root, 750, 500));
         primaryStage.show();
         mainStage = primaryStage;
     }

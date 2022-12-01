@@ -33,62 +33,107 @@ public class Controller {
     // -SHORTCUTS
 
     //REFERENCES TO FXML ELEMENTS
-    @FXML VBox mainContainer; @FXML MenuBar menuBar; @FXML MenuItem saveMenu;
-    @FXML MenuItem saveAsMenu; @FXML MenuItem printMenu; @FXML MenuItem closeMenu;
-    @FXML Menu openRecentMenu; @FXML MenuItem fontMenu; @FXML ToolBar toolBar;
-    @FXML CheckMenuItem toolBarViewOption; @FXML ToolBar utilBar; @FXML CheckMenuItem utilitiesViewOption;
-    @FXML Label wordCounter; @FXML Label lineCounter; @FXML CheckMenuItem fontWrapMenu;
-    @FXML TabPane tabs; @FXML ImageView backgroundImage;
+    @FXML
+    VBox mainContainer;
+    @FXML
+    MenuBar menuBar;
+    @FXML
+    MenuItem saveMenu;
+    @FXML
+    MenuItem saveAsMenu;
+    @FXML
+    MenuItem printMenu;
+    @FXML
+    MenuItem closeMenu;
+    @FXML
+    Menu openRecentMenu;
+    @FXML
+    MenuItem fontMenu;
+    @FXML
+    ToolBar toolBar;
+    @FXML
+    CheckMenuItem toolBarViewOption;
+    @FXML
+    ToolBar utilBar;
+    @FXML
+    CheckMenuItem utilitiesViewOption;
+    @FXML
+    Label wordCounter;
+    @FXML
+    Label lineCounter;
+    @FXML
+    CheckMenuItem fontWrapMenu;
+    @FXML
+    TabPane tabs;
+    @FXML
+    ImageView backgroundImage;
 
     @FXML
-    MenuItem replaceMenu;
+    MenuItem findMenu;
+
     @FXML
-    TextField newWord;
+    TextField textToFind;
     @FXML
-    TextField oldWord;
+    TextField replacement;
     @FXML
     Button replaceButton;
-
+    @FXML
+    Button findButton;
+    @FXML
+    Label textNotFound;
 
 
     @FXML
-    public  void replaceWindow()throws  IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("ReplaceWindow.fxml"));
+    public void findWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FindAndReplaceWindow.fxml"));
         Parent root = loader.load();
 
+
         Stage stage = new Stage();
-        stage.setTitle("Replace");
-        stage.setScene(new Scene(root,600,200));
+        stage.setResizable(false);
+        stage.setTitle("Find and Replace");
+        stage.setScene(new Scene(root, 450, 150));
         stage.show();
     }
 
-    public void  replace(){
-        String oldW = oldWord.getText();
-        String newW = newWord.getText();
-        String replacedWordString = getCurrentTextArea().getText().replace(oldW,newW);
+    static int occurances = 0;
 
-        getCurrentTextArea().setText(replacedWordString);
+    public void findText() {
+        String text = getCurrentTextArea().getText();
+        String word = textToFind.getText();
+        if(!getCurrentTextArea().getSelectedText().equals(word))
+            occurances = 0;
 
-    }
-    public void searchWord(){
-        String oldW = oldWord.getText();
-        int index = getCurrentTextArea().getText().indexOf(oldWord.getText());
+        int index;
+        if (occurances == 0)
+            index = text.indexOf(word);
+        else
+            index = text.indexOf(word, getCurrentTextArea().getSelection().getEnd() + 1);
+
         if (index == -1) {
-
+            if(occurances > 0) {
+                getCurrentTextArea().selectRange(0,0);
+                occurances = 0;
+                findText();
+            }
+            else
+                textNotFound.setVisible(true);
         } else {
-            getCurrentTextArea().selectRange(oldWord.getText().charAt(0), oldWord.getLength());
+            textNotFound.setVisible(false);
+            getCurrentTextArea().selectRange(index, index + word.length());
+            occurances++;
         }
     }
 
-   /* public void  replace(TextArea currentTextArea){
-        String oldW = oldWord.getText();
-        String newW = newWord.getText();
-        String replacedWordString = currentTextArea.getText().replace(oldW,newW);
-        System.out.println(replacedWordString);
-        currentTextArea.setText(replacedWordString);
+    public void replace() {
+        String oldW = textToFind.getText();
+        String newW = replacement.getText();
+        String replacedWordString = getCurrentTextArea().getText().replace(oldW, newW);
 
+        getCurrentTextArea().setText(replacedWordString);
     }
-    */
+
+
     // FILE CHOOSER FOR OPENING AND SAVING FILES
     private FileChooser fileChooser = new FileChooser();
     //REFERENCE TO CURRENT TAB
@@ -111,7 +156,7 @@ public class Controller {
 
     public void refresh() {
         currentTab = tabs.getSelectionModel().getSelectedItem();
-        if(currentTab != null) textCounters();
+        if (currentTab != null) textCounters();
         toggleMenus();
     }
 
@@ -123,7 +168,7 @@ public class Controller {
             closeMenu.setDisable(true);
             printMenu.setDisable(true);
             fontMenu.setDisable(true);
-            replaceMenu.setDisable(true);
+            findMenu.setDisable(true);
         } else {
             backgroundImage.setVisible(false);
             saveMenu.setDisable(false);
@@ -131,7 +176,7 @@ public class Controller {
             closeMenu.setDisable(false);
             printMenu.setDisable(false);
             fontMenu.setDisable(false);
-            replaceMenu.setDisable(false);
+            findMenu.setDisable(false);
         }
     }
 
@@ -179,6 +224,7 @@ public class Controller {
         }
         return -1;
     }
+
     public void save() throws FileNotFoundException {
         if (currentTab == null) return;
         File f = getCurrentPath();
@@ -188,6 +234,7 @@ public class Controller {
         } else
             saveAs();
     }
+
     public void saveAs() throws FileNotFoundException {
         if (currentTab == null) return;
         Window stage = mainContainer.getScene().getWindow();
@@ -313,7 +360,6 @@ public class Controller {
     }
 
 
-
     //VIEW MENU CALLS
     public void toggleToolBar() {
         if (!toolBarViewOption.isSelected())
@@ -340,8 +386,8 @@ public class Controller {
     }
 
     //
-    public void openFromTabs(){
-        if(tabs.getTabs().isEmpty()) open();
+    public void openFromTabs() {
+        if (tabs.getTabs().isEmpty()) open();
     }
 
     // FILE DRAG & DROP EVENTS

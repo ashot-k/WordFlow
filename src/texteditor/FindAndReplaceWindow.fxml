@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="CENTER" hgap="5.0" style="-fx-background-color: #eeeeee;" vgap="1.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="texteditor.Controller">
+  <columnConstraints>
+      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" />
+    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" />
+      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" />
+      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" />
+      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" />
+      <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints fillHeight="false" vgrow="NEVER" />
+    <RowConstraints fillHeight="false" vgrow="NEVER" />
+      <RowConstraints fillHeight="false" vgrow="NEVER" />
+      <RowConstraints fillHeight="false" minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+      <RowConstraints fillHeight="false" vgrow="NEVER" />
+  </rowConstraints>
+   <children>
+      <Label text="Find.." GridPane.rowIndex="1">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label text="Replace With" GridPane.rowIndex="3">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="replaceButton" mnemonicParsing="false" onAction="#replace" prefHeight="10.0" prefWidth="60.0" text="Replace" GridPane.columnIndex="4" GridPane.rowIndex="3">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <Button fx:id="findButton" mnemonicParsing="false" onAction="#findText" prefHeight="10.0" prefWidth="60.0" text="Find " GridPane.columnIndex="4" GridPane.rowIndex="1">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <TextField fx:id="textToFind" promptText="Enter text to search" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="replacement" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Label fx:id="textNotFound" text="Text Not Found!" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label text="Replaces All Occurances" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </Label>
+   </children>
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+   </padding>
+</GridPane>
