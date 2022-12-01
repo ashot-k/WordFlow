@@ -33,49 +33,19 @@ public class Controller {
     // -SHORTCUTS
 
     //REFERENCES TO FXML ELEMENTS
-    @FXML
-    VBox mainContainer;
-    @FXML
-    MenuBar menuBar;
-    @FXML
-    MenuItem saveMenu;
-    @FXML
-    MenuItem saveAsMenu;
-    @FXML
-    MenuItem printMenu;
-    @FXML
-    MenuItem closeMenu;
-    @FXML
-    Menu openRecentMenu;
-    @FXML
-    MenuItem fontMenu;
-    @FXML
-    ToolBar toolBar;
-    @FXML
-    CheckMenuItem toolBarViewOption;
-    @FXML
-    ToolBar utilBar;
-    @FXML
-    CheckMenuItem utilitiesViewOption;
-    @FXML
-    Label wordCounter;
-    @FXML
-    Label lineCounter;
-    @FXML
-    CheckMenuItem fontWrapMenu;
-    @FXML
-    TabPane tabs;
-    @FXML
-    ImageView backgroundImage;
+    @FXML VBox mainContainer; @FXML MenuBar menuBar; @FXML MenuItem saveMenu;
+    @FXML MenuItem saveAsMenu; @FXML MenuItem printMenu; @FXML MenuItem closeMenu;
+    @FXML Menu openRecentMenu; @FXML MenuItem fontMenu; @FXML ToolBar toolBar;
+    @FXML CheckMenuItem toolBarViewOption; @FXML ToolBar utilBar; @FXML CheckMenuItem utilitiesViewOption;
+    @FXML Label wordCounter; @FXML Label lineCounter; @FXML CheckMenuItem fontWrapMenu;
+    @FXML TabPane tabs; @FXML ImageView backgroundImage;
+
     @FXML
     MenuItem replaceMenu;
-
     @FXML
     TextField newWord;
-
     @FXML
     TextField oldWord;
-
     @FXML
     Button replaceButton;
 
@@ -89,15 +59,7 @@ public class Controller {
         Stage stage = new Stage();
         stage.setTitle("Replace");
         stage.setScene(new Scene(root,600,200));
-
-
-       /* replaceButton.setOnAction(event -> {
-             replace(textArea);
-            stage.close();
-        });*/
-
         stage.show();
-
     }
 
     public void  replace(){
@@ -110,16 +72,12 @@ public class Controller {
     }
     public void searchWord(){
         String oldW = oldWord.getText();
-
         int index = getCurrentTextArea().getText().indexOf(oldWord.getText());
         if (index == -1) {
 
         } else {
             getCurrentTextArea().selectRange(oldWord.getText().charAt(0), oldWord.getLength());
-
         }
-
-
     }
 
    /* public void  replace(TextArea currentTextArea){
@@ -130,7 +88,7 @@ public class Controller {
         currentTextArea.setText(replacedWordString);
 
     }
-*/
+    */
     // FILE CHOOSER FOR OPENING AND SAVING FILES
     private FileChooser fileChooser = new FileChooser();
     //REFERENCE TO CURRENT TAB
@@ -138,12 +96,10 @@ public class Controller {
 
     public void setup(Stage primaryStage) {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Document ", "*.txt"));
-        //exit check event
         primaryStage.setOnCloseRequest(event -> {
             event.consume();
             this.exit();
         });
-        //current tab refresh event
         tabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
             @Override
             public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
@@ -196,9 +152,7 @@ public class Controller {
 
         addToRecentlyOpened(tab);
     }
-    public void openFromTabs(){
-        if(tabs.getTabs().isEmpty()) open();
-    }
+
 
     public void addToRecentlyOpened(Tab tab) {
         //create new menuitem under open_recent menu
@@ -225,10 +179,8 @@ public class Controller {
         }
         return -1;
     }
-
     public void save() throws FileNotFoundException {
         if (currentTab == null) return;
-        // write on the same file if currently editing it
         File f = getCurrentPath();
         if (f != null) {
             Utilities.writeFile(f, getCurrentTextArea());
@@ -236,7 +188,6 @@ public class Controller {
         } else
             saveAs();
     }
-
     public void saveAs() throws FileNotFoundException {
         if (currentTab == null) return;
         Window stage = mainContainer.getScene().getWindow();
@@ -267,7 +218,8 @@ public class Controller {
     public void exit() {
         if (!tabs.getTabs().isEmpty()) {
             if (tabs.getTabs().size() > 1)
-                AlertBox.closeTabsCheck(this, "Exit", "You may have unsaved changes in your tabs.\nAre you sure you want to exit?", null);
+                AlertBox.closeTabsCheck(this, "Exit", "You may have unsaved changes in your tabs.\n" +
+                        "Are you sure you want to exit?", null);
             else if (currentTab.getId() == null)
                 AlertBox.exitSaveCheck(this, "Exit", "Do you want to save changes to ", currentTab.getText());
             else
@@ -387,6 +339,11 @@ public class Controller {
         lineCounter.setText(String.valueOf(lines));
     }
 
+    //
+    public void openFromTabs(){
+        if(tabs.getTabs().isEmpty()) open();
+    }
+
     // FILE DRAG & DROP EVENTS
     @FXML
     void handleFileOverEvent(DragEvent event) {
@@ -395,9 +352,8 @@ public class Controller {
         if (db.hasFiles()) {
             if (db.getFiles().get(0).getPath().endsWith("txt"))
                 event.acceptTransferModes(TransferMode.COPY);
-        } else {
+        } else
             event.consume();
-        }
     }
 
     @FXML
@@ -415,8 +371,8 @@ public class Controller {
 
         currentTab.setStyle("-fx-base: #EAEAEA");
         addToRecentlyOpened(tab);
-
     }
+
 
     //GETTERS & SETTERS
     public Tab getCurrentTab() {

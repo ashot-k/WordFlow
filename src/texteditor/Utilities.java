@@ -65,7 +65,8 @@ public class Utilities {
         // Create the PrinterJob
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job == null) {
-            AlertBox.noPrinterFound("No printer", "No printer was found on your system");
+            AlertBox.noPrinterFound("No printer",
+                    "No printer was found on your system");
             return;
         }
         // Show the print setup dialog

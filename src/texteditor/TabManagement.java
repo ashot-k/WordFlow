@@ -77,6 +77,7 @@ public class TabManagement {
         tabs.getSelectionModel().select(tab);
         controller.setCurrentTab(tabs.getSelectionModel().getSelectedItem());
     }
+
     public static void openTab(TabPane tabs, Tab tab) {
         if (!isTabOpen(tabs, tab))
             tabs.getTabs().add(tab);
@@ -84,6 +85,7 @@ public class TabManagement {
         tabs.getSelectionModel().select(findTab(tabs, tab));
         controller.setCurrentTab(tabs.getSelectionModel().getSelectedItem());
     }
+
     public static boolean isTabOpen(TabPane tabs, Tab tab) {
         for (Tab t : tabs.getTabs()) {
             if (t.getId() != null)
