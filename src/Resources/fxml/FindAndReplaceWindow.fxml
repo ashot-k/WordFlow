@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane alignment="CENTER" hgap="5.0" style="-fx-background-color: #eeeeee;" vgap="1.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="texteditor.Controller">
+<GridPane alignment="CENTER" hgap="5.0" style="-fx-background-color: #eeeeee;" vgap="1.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.Controller">
   <columnConstraints>
       <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" />

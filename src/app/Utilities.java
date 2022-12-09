@@ -1,4 +1,4 @@
-package texteditor;
+package app;
 
 import javafx.print.PrinterJob;
 import javafx.scene.control.Label;

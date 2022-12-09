@@ -1,4 +1,4 @@
-package texteditor;
+package app;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,9 +11,10 @@ import java.io.IOException;
 public class Main extends Application {
 
     public static Stage mainStage;
+
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainInterface.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Resources/fxml/MainInterface.fxml"));
         Parent root = loader.load();
 
         Controller controller = loader.getController();
@@ -30,6 +31,7 @@ public class Main extends Application {
         System.out.println(System.getProperty("java.version"));
         launch(args);
     }
+
     public static void closeProgram() {
         System.exit(0);
     }

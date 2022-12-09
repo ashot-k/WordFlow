@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="mainContainer" alignment="CENTER" prefWidth="450.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="texteditor.Controller">
+<VBox fx:id="mainContainer" alignment="CENTER" prefWidth="450.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.Controller">
 
     <MenuBar fx:id="menuBar">
         <Menu text="File">
@@ -106,6 +106,21 @@
                <Tooltip text="Save" />
             </tooltip>
          </Button>
+         <Button alignment="CENTER" mnemonicParsing="false" onAction="#close" prefHeight="26.0">
+            <font>
+               <Font size="10.0" />
+            </font>
+            <graphic>
+               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../icons/close.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            <tooltip>
+               <Tooltip text="Close" />
+            </tooltip>
+         </Button>
          <Separator orientation="VERTICAL" />
             <Button mnemonicParsing="false" onAction="#cut">
                 <font>
@@ -155,13 +170,59 @@
                <Tooltip text="Paste" />
             </tooltip>
             </Button>
+         <Button alignment="CENTER" mnemonicParsing="false" onAction="#delete">
+            <font>
+               <Font size="10.0" />
+            </font>
+            <graphic>
+               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../icons/delete.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            <tooltip>
+               <Tooltip text="Delete" />
+            </tooltip>
+         </Button>
+         <Separator orientation="VERTICAL" />
+         <Button mnemonicParsing="false" onAction="#print" prefHeight="22.0" prefWidth="30.0">
+            <graphic>
+               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../icons/print.png" />
+                  </image>
+                  <viewport>
+                     <Rectangle2D />
+                  </viewport>
+               </ImageView>
+            </graphic>
+            <tooltip>
+               <Tooltip text="Print" />
+            </tooltip>
+         </Button>
+         <Button alignment="CENTER" mnemonicParsing="false" onAction="#findWindow">
+            <font>
+               <Font size="10.0" />
+            </font>
+            <graphic>
+               <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../icons/search.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            <tooltip>
+               <Tooltip text="Search" />
+            </tooltip>
+         </Button>
          <Separator orientation="VERTICAL" />
         </items>
     </ToolBar>
-   <StackPane prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+   <StackPane fx:id="workspacePanel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: C8DADF;" VBox.vgrow="ALWAYS">
       <children>
-          <TabPane fx:id="tabs" onDragDropped="#handleFileDroppedEvent" onDragOver="#handleFileOverEvent" onMouseClicked="#openFromTabs" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff; -fx-view-order: 1;" styleClass="tabs" StackPane.alignment="CENTER" />
-         <ImageView fx:id="backgroundImage" fitHeight="180.0" fitWidth="220.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true" style="-fx-view-order: 3;">
+          <TabPane fx:id="tabs" onDragDropped="#handleFileDroppedEvent" onDragOver="#handleFileOverEvent" onMouseClicked="#openFromTabs" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C8DADF; -fx-view-order: 1;" styleClass="tabs" StackPane.alignment="CENTER" />
+         <ImageView fx:id="backgroundImage" mouseTransparent="true" pickOnBounds="true" preserveRatio="true" style="-fx-view-order: 3;" StackPane.alignment="CENTER">
             <image>
                <Image url="@../icons/background_image.png" />
             </image>

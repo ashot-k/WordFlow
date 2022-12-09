@@ -1,4 +1,4 @@
-package texteditor;
+package app;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

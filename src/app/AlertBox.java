@@ -1,4 +1,4 @@
-package texteditor;
+package app;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,10 +10,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class AlertBox {
 
